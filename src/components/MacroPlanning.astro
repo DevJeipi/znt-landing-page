@@ -1,0 +1,172 @@
+---
+import {
+  Fingerprint,
+  Compass,
+  Target,
+  Newspaper,
+  Search,
+  UserCheck,
+  Palette,
+  ArrowRight,
+  ArrowUpRight,
+  FileCheck,
+} from "lucide-astro";
+
+const chapters = [
+  {
+    id: "01",
+    title: "Marca",
+    description:
+      "A essência, os valores e a personalidade que fazem sua marca ser única.",
+    icon: Fingerprint,
+  },
+  {
+    id: "02",
+    title: "Posicionamento",
+    description:
+      "O lugar que a sua marca ocupa na cabeça do público e no mercado.",
+    icon: Compass,
+  },
+  {
+    id: "03",
+    title: "Objetivos",
+    description: "Metas claras pra guiar cada decisão de conteúdo e mídia.",
+    icon: Target,
+  },
+  {
+    id: "04",
+    title: "Linhas editoriais",
+    description: "Os temas que sustentam a sua comunicação.",
+    icon: Newspaper,
+  },
+  {
+    id: "05",
+    title: "Estudo de concorrentes",
+    description:
+      "Mapeamos o mercado pra diferenciar sua marca, nunca pra copiar.",
+    icon: Search,
+  },
+  {
+    id: "06",
+    title: "Curadoria de perfil",
+    description:
+      "Diagnóstico e direção pra um perfil que transforma visita em seguidor.",
+    icon: UserCheck,
+  },
+  {
+    id: "07",
+    title: "Linha estética",
+    description:
+      "A identidade visual na prática: o padrão que a sua marca passa a seguir.",
+    icon: Palette,
+  },
+];
+---
+
+<section
+  id="planejamento-macro"
+  class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
+  aria-label="Planejamento macro"
+>
+  <!-- Linha vertical de documento ao fundo -->
+  <div
+    class="absolute inset-y-0 left-6 sm:left-8 lg:left-12 w-px bg-gradient-to-b from-transparent via-primary/25 to-transparent pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex flex-col lg:flex-row gap-10 lg:gap-16"
+  >
+    <!-- Coluna esquerda: tese (fixa no desktop) -->
+    <div class="lg:max-w-[360px] shrink-0 lg:sticky lg:top-28 lg:self-start">
+      <span
+        class="inline-flex items-center gap-2 font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/[0.07]"
+      >
+        <FileCheck class="w-4 h-4" aria-hidden="true" />
+        Planejamento Macro
+      </span>
+      <h2
+        class="font-roc text-3xl sm:text-4xl leading-[1.1] tracking-tight text-white mb-5"
+      >
+        Antes do conteúdo, a estratégia
+      </h2>
+      <p
+        class="font-sans text-sm sm:text-base text-white/60 leading-relaxed mb-4"
+      >
+        O Macro é o documento que a gente cria antes de qualquer conteúdo. Ele
+        define as ideias, a comunicação, o posicionamento e os objetivos.
+      </p>
+      <p
+        class="font-sans text-sm sm:text-base text-white/60 leading-relaxed mb-7"
+      >
+        É assim que nasce uma marca de verdade: coerente em todo lugar e pronta
+        pra gerar resultado.
+      </p>
+      <a
+        href="#contato"
+        class="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-primary border border-primary shadow-glow-blue hover:bg-[#5cbbff] hover:border-[#5cbbff] transition-all duration-300"
+      >
+        Agendar diagnóstico
+        <ArrowRight
+          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+
+    <!-- Coluna direita: sumário do documento -->
+    <div class="flex-1 min-w-0">
+      <p
+        class="font-roc text-xs tracking-[0.25em] uppercase text-white/35 mb-2 flex items-center justify-between"
+      >
+        <span>Sumário</span>
+        <span>07 capítulos</span>
+      </p>
+
+      <ol class="border-t border-white/10">
+        {
+          chapters.map((chapter) => {
+            const IconComponent = chapter.icon;
+            return (
+              <li class="group flex items-center gap-4 sm:gap-6 py-5 sm:py-6 border-b border-white/10 transition-all duration-300 hover:bg-white/[0.025] hover:pl-2 sm:hover:pl-4">
+                <span class="font-roc text-sm text-white/30 w-8 shrink-0 transition-colors duration-300 group-hover:text-primary">
+                  {chapter.id}
+                </span>
+                <span class="w-10 h-10 shrink-0 rounded-full bg-white/[0.04] border border-white/12 flex items-center justify-center text-white/50 transition-all duration-300 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-[0_0_14px_rgba(37,164,255,0.3)]">
+                  <IconComponent
+                    class="w-[18px] h-[18px]"
+                    stroke-width={1.75}
+                    aria-hidden="true"
+                  />
+                </span>
+                <span class="flex-1 min-w-0">
+                  <span class="block font-roc text-lg sm:text-2xl tracking-tight text-white leading-tight">
+                    {chapter.title}
+                  </span>
+                  <span class="mt-1 block font-sans text-xs sm:text-sm text-white/50 leading-relaxed">
+                    {chapter.description}
+                  </span>
+                </span>
+                <ArrowUpRight class="w-5 h-5 shrink-0 text-white/20 transition-all duration-300 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+              </li>
+            );
+          })
+        }
+      </ol>
+
+      {/* Linha de saída: o que o cliente recebe */}
+      <p
+        class="mt-6 flex items-start gap-3 border-l-2 border-primary pl-5 font-sans text-sm sm:text-base text-white/70 leading-relaxed"
+      >
+        <span>
+          <strong class="font-roc text-white font-medium"
+            >O que você recebe:</strong
+          >
+          {" "}um documento-guia que alinha marca, mensagem e metas. A base de
+          tudo que vem depois.
+        </span>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,199 @@
+---
+import Logo from "./Logo.astro";
+import { Instagram, Linkedin, Mail, ArrowUp, ArrowRight } from "lucide-astro";
+
+const year = new Date().getFullYear();
+
+const nav = [
+  { label: "Início", href: "#hero" },
+  { label: "Serviços", href: "#servicos" },
+  { label: "Cases", href: "#cases" },
+  { label: "Metodologia", href: "#metodologia" },
+];
+
+const pillars = [
+  { label: "Estratégia", href: "#constelacao" },
+  { label: "Performance", href: "#constelacao" },
+  { label: "Inovação", href: "#constelacao" },
+  { label: "Planejamento Macro", href: "#planejamento-macro" },
+  { label: "Máquina de Conteúdo", href: "#maquina" },
+];
+
+const WHATSAPP_URL = "https://wa.me/5551986154167";
+const social = [
+  {
+    label: "Instagram da ZNT",
+    href: "https://www.instagram.com/zntagencia",
+    icon: Instagram,
+    external: true,
+  },
+  {
+    label: "LinkedIn da ZNT",
+    href: "https://www.linkedin.com/company/agencia-znt",
+    icon: Linkedin,
+    external: true,
+  },
+  {
+    label: "E-mail da ZNT",
+    href: "mailto:contato@agenciaznt.com.br",
+    icon: Mail,
+    external: false,
+  },
+];
+---
+
+<footer
+  id="contato"
+  class="relative bg-black overflow-hidden pt-12 lg:pt-20 pb-8 scroll-mt-24 border-t border-white/10"
+  aria-label="Rodapé e contato"
+>
+  <!-- Glow -->
+  <div
+    class="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.1)_0%,transparent_70%)] blur-[100px] pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12"
+  >
+    <!-- Chamada principal -->
+    <div
+      class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 lg:pb-12 border-b border-white/10"
+    >
+      <h2
+        class="font-roc font-medium tracking-tight leading-[1.05] text-white text-[clamp(2rem,5vw,3.75rem)] max-w-2xl"
+      >
+        Pronto pra alcançar o nível mais alto da sua marca?
+      </h2>
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex shrink-0 items-center gap-2 px-7 py-3.5 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-primary border border-primary shadow-glow-blue hover:bg-[#5cbbff] hover:border-[#5cbbff] transition-all duration-300"
+      >
+        Agendar diagnóstico
+        <ArrowRight
+          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+
+    <!-- Colunas -->
+    <div
+      class="grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 lg:gap-12 py-10"
+    >
+      <div class="col-span-2 lg:col-span-1">
+        <Logo />
+        <p
+          class="mt-4 font-sans text-sm text-white/55 leading-relaxed max-w-xs"
+        >
+          Estratégia que constrói narrativa. Branding, conteúdo, tráfego e
+          automação pra marcas que querem crescer de verdade.
+        </p>
+        <ul class="mt-5 flex items-center gap-2.5">
+          {
+            social.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-label={item.label}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
+                    class="flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/15 text-white/70 hover:text-white hover:border-primary/60 hover:bg-primary/15 hover:shadow-[0_0_14px_rgba(37,164,255,0.3)] transition-all duration-300"
+                  >
+                    <IconComponent
+                      class="w-[18px] h-[18px]"
+                      stroke-width={1.75}
+                      aria-hidden="true"
+                    />
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+
+      <nav aria-label="Navegação do rodapé">
+        <p
+          class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
+        >
+          Navegação
+        </p>
+        <ul class="flex flex-col gap-2.5">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="font-sans text-sm text-white/65 hover:text-white transition-colors duration-200"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Serviços no rodapé">
+        <p
+          class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
+        >
+          Ecossistema
+        </p>
+        <ul class="flex flex-col gap-2.5">
+          {
+            pillars.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="font-sans text-sm text-white/65 hover:text-white transition-colors duration-200"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <p
+          class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
+        >
+          Fale com a gente
+        </p>
+        <p class="font-sans text-sm text-white/65 leading-relaxed mb-4">
+          Resposta rápida no horário comercial. Sem robô, só atendimento humano.
+        </p>
+        <a
+          href="#hero"
+          class="group inline-flex items-center gap-2 font-sans text-sm font-medium text-primary hover:text-primary-light transition-colors duration-200"
+        >
+          <ArrowUp
+            class="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          />
+          Voltar ao topo
+        </a>
+      </div>
+    </div>
+
+    <!-- Linha final -->
+    <div
+      class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3"
+    >
+      <p class="font-sans text-xs text-white/40">
+        © {year} ZNT Marketing. Todos os direitos reservados.
+      </p>
+      <p class="font-roc text-xs tracking-[0.2em] uppercase text-white/25">
+        Estratégia que constrói narrativa
+      </p>
+    </div>
+  </div>
+</footer>

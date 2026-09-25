@@ -1,0 +1,134 @@
+---
+import heroImage from "../assets/image-right-1.png";
+import { Image } from "astro:assets";
+import LogoTicker from "./LogoTicker.astro";
+---
+
+<section
+  id="hero"
+  class="relative flex items-center overflow-hidden bg-black scroll-mt-24"
+  aria-label="Seção principal"
+>
+  <!-- Ambient background: Leves quadriculados de textura com fade no rodapé e glow sutil -->
+  <div class="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+    <div
+      class="absolute inset-0 bg-grid-pattern [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"
+    >
+    </div>
+    <div
+      class="absolute top-1/4 right-5 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.12)_0%,transparent_70%)] blur-[100px]"
+    >
+    </div>
+    <div
+      class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent"
+    >
+    </div>
+  </div>
+
+  <!-- Imagem grande: na frente do background, atrás do conteúdo, posicionada à direita -->
+  <div
+    class="absolute inset-0 z-[5] flex items-start lg:items-center justify-end overflow-hidden pointer-events-none"
+    aria-hidden="true"
+  >
+    <div
+      class="relative w-[500px] sm:w-[600px] md:w-[700px] lg:w-[800px] xl:w-[900px] top-30 md:top-0 lg:-mr-50"
+    >
+      <Image
+        src={heroImage}
+        alt="Estrela ZNT emanando luz, representação visual da estratégia de marketing"
+        class="w-full h-auto object-contain rotate-90 lg:rotate-0"
+        widths={[480, 720, 1024, 1440]}
+        sizes="(max-width: 768px) 500px, (max-width: 1024px) 700px, 900px"
+        loading="eager"
+        quality={90}
+      />
+    </div>
+  </div>
+
+  <!-- Container com largura bloqueada em 1440px -->
+  <div
+    class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center pt-32 lg:pt-40 pb-12 lg:pb-20"
+  >
+    <!-- Conteúdo Hero (centralizado à esquerda) -->
+    <div
+      class="w-full lg:max-w-[60%] flex flex-col items-center lg:items-start text-center lg:text-left"
+    >
+      <!-- Badge: Sem borda, nem dot, apenas texto em azul -->
+      <span
+        class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 animate-fade-in"
+      >
+        MARKETING QUE FUNCIONA DE VERDADE
+      </span>
+
+      <!-- Título Principal: Roc Grotesk, 2 linhas fixas em todas as telas -->
+      <h1
+        class="font-roc text-2xl sm:text-4xl md:text-5xl lg:text-[3rem] xl:text-[3.5rem] uppercase leading-[1.05] tracking-tight text-white mb-4"
+      >
+        <span class="block sm:whitespace-nowrap">ESTRATÉGIA QUE</span>
+        <span class="block sm:whitespace-nowrap"
+          >CONSTRÓI <span class="text-primary">NARRATIVA</span></span
+        >
+      </h1>
+
+      <!-- Parágrafo: Inter -->
+      <p
+        class="font-sans text-sm sm:text-base text-white/75 leading-relaxed max-w-lg mb-6"
+      >
+        A gente transforma marca em máquina de crescimento: branding,
+        conteúdo, tráfego e automação, tudo guiado por dados.
+      </p>
+
+      <!-- Botões lado a lado -->
+      <div
+        class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
+      >
+        <!-- Agendar diagnóstico: totalmente arredondado com glow -->
+        <a
+          href="#contato"
+          id="btn-agendar"
+          class="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-primary border border-primary shadow-glow-blue hover:bg-[#5cbbff] hover:border-[#5cbbff] transition-all duration-300"
+        >
+          Agendar diagnóstico
+          <svg
+            class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3.333 8h9.334M8.667 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+
+        <!-- Ver cases: totalmente arredondado (ghost) -->
+        <a
+          href="#cases"
+          id="btn-cases"
+          class="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-transparent border border-white/30 hover:border-white hover:bg-white/10 transition-all duration-300"
+        >
+          Ver cases
+          <svg
+            class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3.333 8h9.334M8.667 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Logo Ticker -->
+      <LogoTicker />
+    </div>
+  </div>
+</section>

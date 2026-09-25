@@ -1,0 +1,139 @@
+---
+import {
+  Users,
+  CalendarDays,
+  Palette,
+  TrendingUp,
+  Rocket,
+  ArrowRight,
+} from "lucide-astro";
+
+const steps = [
+  {
+    id: "01",
+    title: "Onboarding",
+    description: "A gente mergulha no seu negócio, entende seus objetivos e conhece seu público.",
+    icon: Users,
+  },
+  {
+    id: "02",
+    title: "Pauta Estratégica",
+    description:
+      "Conteúdo e campanhas planejados com direção e propósito.",
+    icon: CalendarDays,
+  },
+  {
+    id: "03",
+    title: "Criação",
+    description: "Peças criativas feitas pra performar, não só pra enfeitar.",
+    icon: Palette,
+  },
+  {
+    id: "04",
+    title: "Monitoramento",
+    description: "Acompanhamos tudo em tempo real e decidimos com base em dados.",
+    icon: TrendingUp,
+  },
+  {
+    id: "05",
+    title: "Escala",
+    description: "Otimizamos sem parar pra crescer de forma consistente.",
+    icon: Rocket,
+  },
+];
+---
+
+<section
+  id="metodologia"
+  class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
+  aria-label="Metodologia ZNT"
+>
+  <!-- Ambient background glow sutil -->
+  <div
+    class="absolute inset-0 pointer-events-none z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute bottom-0 left-1/3 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.08)_0%,transparent_70%)] blur-[100px]"
+    >
+    </div>
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex flex-col lg:flex-row gap-10 lg:gap-14"
+  >
+    <!-- Bloco esquerdo: label, título e CTA -->
+    <div class="lg:max-w-[300px] xl:max-w-[340px] shrink-0">
+      <span
+        class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
+      >
+        Metodologia ZNT
+      </span>
+      <h2
+        class="font-roc text-3xl sm:text-4xl leading-[1.1] tracking-tight text-white mb-6"
+      >
+        Um processo claro, sem enrolação
+      </h2>
+      <a
+        href="#maquina"
+        class="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-sans text-sm font-medium text-white bg-transparent border border-white/25 hover:border-white hover:bg-white/10 transition-all duration-300"
+      >
+        Entenda o processo
+        <ArrowRight
+          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+
+    <!-- Linha do tempo: 5 etapas -->
+    <div class="relative flex-1">
+      <!-- Linha conectora horizontal (desktop) -->
+      <div
+        class="hidden lg:block absolute top-8 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+        aria-hidden="true"
+      >
+      </div>
+      <ol
+        class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-6 lg:gap-4"
+      >
+        {
+          steps.map((step) => {
+            const IconComponent = step.icon;
+            return (
+              <li class="flex sm:flex-col sm:items-center lg:items-center sm:text-center gap-4 sm:gap-0">
+                {/* Nó com glow */}
+                <div class="relative shrink-0">
+                  <div
+                    class="absolute inset-0 rounded-full bg-primary/30 blur-xl pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  <div class="relative w-16 h-16 rounded-full bg-[#060b14] border border-primary/40 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(37,164,255,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]">
+                    <IconComponent
+                      class="w-6 h-6 text-primary"
+                      stroke-width={1.75}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+
+                {/* Texto */}
+                <div class="flex flex-col gap-1.5 sm:mt-4">
+                  <span class="font-roc text-xs tracking-[0.2em] text-white/40">
+                    {step.id}
+                  </span>
+                  <h3 class="font-roc text-base sm:text-lg leading-snug text-white">
+                    {step.title}
+                  </h3>
+                  <p class="font-sans text-xs sm:text-sm text-white/55 leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</section>

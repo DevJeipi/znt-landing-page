@@ -1,0 +1,223 @@
+---
+import { Asterisk, ChevronDown } from "lucide-astro";
+
+interface Pillar {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  color: string;
+  items: string[];
+}
+
+const pillars: Pillar[] = [
+  {
+    id: "estrategia",
+    name: "Estratégia",
+    tagline: "Onde tudo começa",
+    description:
+      "Posicionamento, conteúdo e canais na mesma direção pra construir marca forte.",
+    color: "#7ec9ff",
+    items: [
+      "Atendimento",
+      "Planejamento",
+      "Conteúdo",
+      "Design",
+      "Sites e Landing Pages",
+      "Branding",
+      "Audiovisual",
+    ],
+  },
+  {
+    id: "performance",
+    name: "Performance",
+    tagline: "Atenção que vira receita",
+    description:
+      "Mídia paga, CRM e dados pra transformar investimento em crescimento de verdade.",
+    color: "#e3e36d",
+    items: ["Análise de Métricas", "CRM", "Tráfego Pago"],
+  },
+  {
+    id: "inovacao",
+    name: "Inovação",
+    tagline: "Tecnologia que acelera",
+    description:
+      "IA e tecnologia pra operar mais rápido e escalar o que já funciona.",
+    color: "#68eaa9",
+    items: ["Tecnologia", "Soluções", "Inteligência Artificial", "Softwares"],
+  },
+];
+---
+
+<section
+  id="constelacao"
+  class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
+  aria-label="Constelação de serviços ZNT"
+>
+  {/* Glows ambientes: um por pilar, aceso conforme a seleção */}
+  {
+    pillars.map((pillar, index) => (
+      <div
+        id={`glow-${pillar.id}`}
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[120px] pointer-events-none transition-opacity duration-700"
+        style={`background: radial-gradient(circle, ${pillar.color}22 0%, transparent 70%); opacity: ${index === 0 ? 1 : 0};`}
+        aria-hidden="true"
+      />
+    ))
+  }
+
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
+    <!-- Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-8 lg:mb-10">
+      <div class="max-w-xl">
+        <span
+          class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
+        >
+          Constelação ZNT
+        </span>
+        <h2
+          class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
+        >
+          Três pilares, zero enrolação
+        </h2>
+      </div>
+      <p class="font-sans text-xs sm:text-sm tracking-[0.15em] uppercase text-white/35">
+        Escolha um pilar e explore
+      </p>
+    </div>
+
+    <!-- Pilares em linhas expansíveis -->
+    <div class="border-b border-white/10">
+      {
+        pillars.map((pillar, index) => (
+          <div
+            id={`row-${pillar.id}`}
+            data-open={index === 0 ? "true" : "false"}
+            class="border-t border-white/10"
+          >
+            <button
+              type="button"
+              data-pillar-toggle={pillar.id}
+              aria-expanded={index === 0 ? "true" : "false"}
+              aria-controls={`panel-${pillar.id}`}
+              class="group flex w-full items-center gap-4 sm:gap-6 py-6 sm:py-8 text-left"
+            >
+              <Asterisk
+                class="pillar-star w-9 h-9 sm:w-12 sm:h-12 shrink-0 transition-all duration-500"
+                style={`color: ${pillar.color};`}
+                aria-hidden="true"
+              />
+              <span class="flex-1 min-w-0">
+                <span class="pillar-name block font-roc font-medium tracking-tight leading-none text-white/25 text-[clamp(2rem,6vw,4rem)] transition-colors duration-500">
+                  {pillar.name}
+                </span>
+                <span class="mt-2 block font-sans text-xs sm:text-sm text-white/40">
+                  {pillar.tagline} · {String(pillar.items.length).padStart(2, "0")} entregáveis
+                </span>
+              </span>
+              <ChevronDown class="pillar-chev w-6 h-6 shrink-0 text-white/40 transition-transform duration-500" aria-hidden="true" />
+            </button>
+
+            <div
+              id={`panel-${pillar.id}`}
+              role="region"
+              aria-label={`Entregáveis de ${pillar.name}`}
+              class:list={[
+                "grid transition-all duration-500 ease-out",
+                index === 0
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0",
+              ]}
+            >
+              <div class="overflow-hidden min-h-0">
+                <div class="pb-8 sm:pb-10 sm:pl-[4.5rem]">
+                  <p class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl mb-5">
+                    {pillar.description}
+                  </p>
+                  <ul class="flex flex-wrap gap-2.5">
+                    {pillar.items.map((item) => (
+                      <li
+                        class="inline-flex items-center px-5 py-2.5 rounded-full font-roc text-sm text-white bg-white/[0.04] border border-white/15 transition-all duration-300 hover:bg-white/10 hover:border-[var(--pillar)] hover:shadow-[0_0_14px_-4px_var(--pillar)]"
+                        style={`--pillar: ${pillar.color};`}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const toggles = document.querySelectorAll("[data-pillar-toggle]");
+  const rows = document.querySelectorAll("[id^='row-']");
+
+  const openPanel = ["grid-rows-[1fr]", "opacity-100"];
+  const closedPanel = ["grid-rows-[0fr]", "opacity-0"];
+
+  function select(id) {
+    rows.forEach((row) => {
+      const isOpen = row.id === `row-${id}`;
+      row.setAttribute("data-open", isOpen.toString());
+
+      const toggle = row.querySelector("[data-pillar-toggle]");
+      toggle?.setAttribute("aria-expanded", isOpen.toString());
+
+      const panel = row.querySelector("[id^='panel-']");
+      panel?.classList.remove(...openPanel, ...closedPanel);
+      panel?.classList.add(...(isOpen ? openPanel : closedPanel));
+    });
+
+    pillars_glow(id);
+  }
+
+  function pillars_glow(id) {
+    ["estrategia", "performance", "inovacao"].forEach((pillarId) => {
+      const glow = document.getElementById(`glow-${pillarId}`);
+      if (glow) glow.style.opacity = pillarId === id ? "1" : "0";
+    });
+  }
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const id = toggle.getAttribute("data-pillar-toggle");
+      const row = document.getElementById(`row-${id}`);
+      // Clique no pilar aberto recolhe; nos demais, troca a seleção
+      if (row?.getAttribute("data-open") === "true") {
+        row.setAttribute("data-open", "false");
+        toggle.setAttribute("aria-expanded", "false");
+        const panel = row.querySelector("[id^='panel-']");
+        panel?.classList.remove(...openPanel);
+        panel?.classList.add(...closedPanel);
+        pillars_glow("__none__");
+      } else if (id) {
+        select(id);
+      }
+    });
+  });
+</script>
+
+<style>
+  #row-estrategia[data-open="true"] .pillar-name {
+    color: #7ec9ff;
+  }
+  #row-performance[data-open="true"] .pillar-name {
+    color: #e3e36d;
+  }
+  #row-inovacao[data-open="true"] .pillar-name {
+    color: #68eaa9;
+  }
+  [data-open="true"] .pillar-chev {
+    transform: rotate(180deg);
+  }
+  [data-open="true"] .pillar-star {
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 12px currentColor);
+  }
+</style>

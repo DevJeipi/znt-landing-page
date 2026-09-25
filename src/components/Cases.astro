@@ -1,0 +1,198 @@
+---
+import { ArrowRight, ArrowUpRight } from "lucide-astro";
+
+/**
+ * COMO ADICIONAR FOTO OU VÍDEO EM UM CASE:
+ *
+ * 1. Coloque o arquivo em `src/assets/cases/` (ex: `case-saude.webp`, `case-ecommerce.mp4`).
+ * 2. Foto:  importe no topo (`import caseSaude from "../assets/cases/case-saude.webp"`)
+ *           e defina `mediaType: "image", mediaSrc: caseSaude.src`.
+ * 3. Vídeo: importe ou aponte para `/cases/case-ecommerce.mp4` (pasta `public/cases/`)
+ *           e defina `mediaType: "video", mediaSrc: "/cases/case-ecommerce.mp4"`.
+ *           O vídeo roda em loop, sem som (autoplay muted) e usa `poster` como capa.
+ * 4. Sem mídia: basta omitir `mediaType`: o card usa o fundo decorativo em glow azul.
+ */
+
+interface CaseMetric {
+  value: string;
+  label: string;
+}
+
+interface CaseItem {
+  id: string;
+  tag: string;
+  title: string;
+  metrics: CaseMetric[];
+  href?: string;
+  mediaType?: "image" | "video";
+  mediaSrc?: string;
+  poster?: string;
+}
+
+const cases: CaseItem[] = [
+  {
+    id: "saude",
+    tag: "Branding + Performance",
+    title: "Reposicionamento de marca premium no segmento de saúde",
+    metrics: [
+      { value: "+312%", label: "Leads" },
+      { value: "-37%", label: "CAC" },
+      { value: "+4,8x", label: "ROAS" },
+    ],
+  },
+  {
+    id: "ecommerce",
+    tag: "Tráfego Pago",
+    title: "E-commerce de eletrônicos escala vendas em 90 dias",
+    metrics: [
+      { value: "+220%", label: "Receita" },
+      { value: "-28%", label: "CPA" },
+      { value: "+3,6x", label: "ROAS" },
+    ],
+  },
+  {
+    id: "b2b",
+    tag: "Conteúdo + Branding",
+    title: "Marca B2B aumenta autoridade e geração de demanda",
+    metrics: [
+      { value: "+180%", label: "Tráfego orgânico" },
+      { value: "+95%", label: "Leads qualificados" },
+      { value: "+2,9x", label: "Conversão" },
+    ],
+  },
+];
+---
+
+<section
+  id="cases"
+  class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
+  aria-label="Cases de sucesso"
+>
+  <!-- Ambient background glow sutil -->
+  <div
+    class="absolute inset-0 pointer-events-none z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.08)_0%,transparent_70%)] blur-[100px]"
+    >
+    </div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
+    <!-- Header: label + título à esquerda, CTA à direita -->
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 lg:mb-12">
+      <div class="max-w-xl">
+        <span
+          class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
+        >
+          Cases de sucesso
+        </span>
+        <h2
+          class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
+        >
+          Resultados que
+          <br />
+          falam por si
+        </h2>
+      </div>
+      <a
+        href="#contato"
+        class="group inline-flex shrink-0 items-center gap-2 px-5 py-2.5 rounded-full font-sans text-sm font-medium text-white/80 bg-white/5 border border-white/15 hover:border-white/40 hover:text-white hover:bg-white/10 transition-all duration-300"
+      >
+        Ver todos os cases
+        <ArrowRight
+          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+
+    <!-- Grid dos cases -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+      {
+        cases.map((item) => (
+          <article class="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060b14]/60 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)]">
+            {/* Mídia do case: foto ou vídeo */}
+            <div class="relative h-52 sm:h-56 overflow-hidden">
+              {item.mediaType === "video" && item.mediaSrc ? (
+                <video
+                  src={item.mediaSrc}
+                  poster={item.poster}
+                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                />
+              ) : item.mediaType === "image" && item.mediaSrc ? (
+                <img
+                  src={item.mediaSrc}
+                  alt={item.title}
+                  loading="lazy"
+                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                /* Fundo decorativo (usado até o case ter foto/vídeo) */
+                <div class="absolute inset-0 bg-grid-pattern" aria-hidden="true">
+                  <div class="absolute -top-10 left-1/4 w-64 h-64 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.35)_0%,transparent_70%)] blur-[60px]" />
+                  <div class="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.2)_0%,transparent_70%)] blur-[50px]" />
+                </div>
+              )}
+              {/* Fade para o conteúdo */}
+              <div
+                class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060b14] to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              {/* Botão expandir (só existe quando o case tem página própria) */}
+              {item.href && (
+                <a
+                  href={item.href}
+                  aria-label={`Abrir case: ${item.title}`}
+                  class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300"
+                >
+                  <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+                </a>
+              )}
+            </div>
+
+            {/* Conteúdo */}
+            <div class="relative p-6 sm:p-7">
+              {/* Linhas de brilho sutil nas bordas inferior e esquerda */}
+              <div
+                class="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                class="absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-t from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+
+              <span class="font-roc text-[11px] sm:text-xs tracking-[0.15em] uppercase text-primary block mb-2.5">
+                {item.tag}
+              </span>
+              <h3 class="font-roc text-lg sm:text-xl leading-snug text-white mb-5">
+                {item.title}
+              </h3>
+
+              {/* Métricas */}
+              <dl class="grid grid-cols-3 gap-3 pt-5 border-t border-white/10">
+                {item.metrics.map((metric) => (
+                  <div class="flex flex-col gap-1">
+                    <dt class="order-2 font-sans text-[11px] sm:text-xs text-white/55 leading-snug">
+                      {metric.label}
+                    </dt>
+                    <dd class="order-1 font-roc text-base sm:text-lg text-white tracking-tight">
+                      {metric.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

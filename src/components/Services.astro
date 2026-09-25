@@ -1,0 +1,143 @@
+---
+import { Sparkles, Play, Target, Zap, ArrowRight } from "lucide-astro";
+
+const services = [
+  {
+    id: "branding",
+    title: "Branding Estratégico",
+    description:
+      "Posicionamento, identidade e narrativa pra construir uma marca forte, desejada e impossível de ignorar.",
+    icon: Sparkles,
+  },
+  {
+    id: "conteudo",
+    title: "Conteúdo de Alta Performance",
+    description:
+      "Conteúdo criativo com um objetivo: engajar, gerar autoridade e converter.",
+    icon: Play,
+  },
+  {
+    id: "trafego",
+    title: "Tráfego Pago & Growth",
+    description:
+      "Campanhas inteligentes e otimizadas pra extrair o máximo de cada real investido.",
+    icon: Target,
+  },
+  {
+    id: "automacao",
+    title: "Automação & CRM",
+    description:
+      "Marketing, vendas e relacionamento conectados pra escalar sem bagunça.",
+    icon: Zap,
+  },
+];
+---
+
+<section
+  id="servicos"
+  class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
+  aria-label="Nossos serviços"
+>
+  <!-- Ambient background glow sutil -->
+  <div
+    class="absolute inset-0 pointer-events-none z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.08)_0%,transparent_70%)] blur-[100px]"
+    >
+    </div>
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12"
+  >
+    <!-- Header: título à esquerda, descrição à direita -->
+    <div
+      class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12"
+    >
+      <div class="max-w-xl">
+        <span
+          class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
+        >
+          Nossos serviços
+        </span>
+        <h2
+          class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
+        >
+          Tudo que sua marca precisa pra decolar
+        </h2>
+      </div>
+      <p
+        class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-sm lg:text-right lg:pb-1"
+      >
+        Estratégia, criatividade e dados juntos pra gerar impacto
+        de verdade no seu negócio.
+      </p>
+    </div>
+
+    <!-- Grid dos 4 cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+      {
+        services.map((service) => {
+          const IconComponent = service.icon;
+          return (
+            <article class="group relative overflow-hidden rounded-2xl p-6 sm:p-7 flex flex-col min-h-[280px] sm:min-h-[300px] bg-[#060b14]/60 backdrop-blur-xl border border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)]">
+              {/* Liquid Glass & Bottom-Left Glow Reflection */}
+              <div
+                class="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-primary/25 blur-2xl pointer-events-none transition-all duration-500 group-hover:bg-primary/45 group-hover:scale-110"
+                aria-hidden="true"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-tr from-primary/[0.12] via-transparent to-white/[0.02] pointer-events-none rounded-2xl"
+                aria-hidden="true"
+              />
+
+              {/* Linhas de brilho sutil nas bordas inferior e esquerda */}
+              <div
+                class="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                class="absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-t from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+
+              {/* Ícone */}
+              <div class="relative z-10 mb-5">
+                <div class="w-11 h-11 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary group-hover:border-primary/50 group-hover:bg-primary/20 group-hover:shadow-[0_0_16px_rgba(37,164,255,0.35)] transition-all duration-300">
+                  <IconComponent
+                    class="w-5 h-5 text-primary"
+                    stroke-width={1.75}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              {/* Título e descrição */}
+              <div class="relative z-10 flex flex-col gap-2.5 flex-1">
+                <h3 class="font-roc text-lg sm:text-xl leading-snug text-white">
+                  {service.title}
+                </h3>
+                <p class="font-sans text-sm text-white/60 leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+
+              {/* Link */}
+              <div class="relative z-10 mt-6">
+                <a
+                  href="#contato"
+                  class="inline-flex items-center gap-2 font-sans text-sm font-medium text-primary hover:text-primary-light transition-colors duration-200"
+                >
+                  Saiba mais
+                  <ArrowRight class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

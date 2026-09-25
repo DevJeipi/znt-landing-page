@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #25a4ff;
+  --color-primary-light: #5cbbff;
+  --color-primary-dark: #1b8de0;
+
+  --color-pillar-strategy: #7ec9ff;
+  --color-pillar-performance: #e3e36d;
+  --color-pillar-innovation: #68eaa9;
+
+  --font-roc: 'roc-grotesk', 'roc-grotesk-wide', 'Space Grotesk', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer utilities {  /* Leves quadriculados de textura */
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  /* Glow extremamente suave para botão primário */
+  .shadow-glow-blue {
+    box-shadow: 0 0 12px rgba(37, 164, 255, 0.15);
+  }
+
+  .shadow-glow-blue:hover {
+    box-shadow: 0 0 16px rgba(37, 164, 255, 0.2);
+  }
+}
+
+@layer base {
+  /* Barra de scroll lateral customizada */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #25a4ff #050505;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #5cbbff 0%, #25a4ff 50%, #1b8de0 100%);
+    border-radius: 8px;
+    border: 2px solid #050505;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5cbbff;
+  }
+}

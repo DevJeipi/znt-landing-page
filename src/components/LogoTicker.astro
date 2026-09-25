@@ -1,0 +1,132 @@
+---
+/**
+ * LogoTicker: carrossel horizontal automático de logos.
+ * Scroll contínuo da direita para a esquerda, infinito.
+ */
+
+import logo15 from "../assets/logos/logo-15.svg";
+import logoDavi from "../assets/logos/logo-davi.svg";
+import logoEmergencial from "../assets/logos/logo-emergencial.svg";
+import logoFlorDeLo from "../assets/logos/logo-flor-de-lo.svg";
+import logoFluence from "../assets/logos/logo-fluence.svg";
+import logoJanete from "../assets/logos/logo-janete.svg";
+import logoJsMetais from "../assets/logos/logo-js-metais.svg";
+import logoKazan from "../assets/logos/logo-kazan.svg";
+import logoSantaTeresinha from "../assets/logos/logo-santa-teresinha.svg";
+import logoShallow from "../assets/logos/logo-shallow.svg";
+import logoSl from "../assets/logos/logo-sl.svg";
+
+const logos = [
+  logo15, logoDavi, logoEmergencial, logoFlorDeLo, logoFluence,
+  logoJanete, logoJsMetais, logoKazan, logoSantaTeresinha, logoShallow, logoSl,
+];
+---
+
+<div class="logo-ticker-wrapper">
+  <p class="ticker-label font-roc">Marcas que crescem com a ZNT</p>
+
+  <div class="ticker-track-container">
+    <div class="ticker-track">
+      {logos.map((logo, i) => (
+        <div class="ticker-item">
+          <img
+            src={typeof logo === "string" ? logo : logo.src}
+            alt={`Logo cliente ${i + 1}`}
+            loading="lazy"
+          />
+        </div>
+      ))}
+      {/* Duplicata para loop contínuo */}
+      {logos.map((logo) => (
+        <div class="ticker-item" aria-hidden="true">
+          <img
+            src={typeof logo === "string" ? logo : logo.src}
+            alt=""
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .logo-ticker-wrapper {
+    width: 100%;
+    margin-top: 2.5rem;
+  }
+
+  .ticker-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 1rem;
+  }
+
+  .ticker-track-container {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+  }
+
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+
+  .ticker-item {
+    flex-shrink: 0;
+  }
+
+  .ticker-item img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  .ticker-item img:hover {
+    opacity: 1;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ticker-track {
+      gap: 2rem;
+      animation-duration: 20s;
+    }
+
+    .ticker-item img {
+      height: 24px;
+    }
+
+    .ticker-label {
+      text-align: center;
+    }
+  }
+</style>

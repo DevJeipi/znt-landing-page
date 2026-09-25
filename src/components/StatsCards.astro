@@ -1,0 +1,111 @@
+---
+import { Rocket, BarChart3, Target, Globe, Clock } from 'lucide-astro';
+
+const stats = [
+  {
+    id: '1',
+    value: '+120',
+    label: 'Projetos entregues',
+    icon: Rocket,
+  },
+  {
+    id: '2',
+    value: '+8M',
+    label: 'Alcance gerado',
+    icon: BarChart3,
+  },
+  {
+    id: '3',
+    value: '97%',
+    label: 'Clientes recorrentes',
+    icon: Target,
+  },
+  {
+    id: '4',
+    value: '+312%',
+    label: 'Crescimento médio',
+    icon: Globe,
+  },
+  {
+    id: '5',
+    value: '5 anos',
+    label: 'De mercado',
+    icon: Clock,
+  },
+];
+---
+
+<section
+  id="metricas"
+  class="relative bg-black py-2 lg:py-12 overflow-visible scroll-mt-24"
+  aria-label="Resultados e Métricas"
+>
+  <!-- Ambient background glow sutil (sem quadriculado) -->
+  <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <div
+      class="absolute top-1/2 right-10 w-[450px] h-[450px] rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.1)_0%,transparent_70%)] blur-[100px]"
+    >
+    </div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
+    <!-- Grid dos 5 cards -->
+    <div
+      class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 lg:gap-5"
+    >
+      {
+        stats.map((stat, index) => {
+          const IconComponent = stat.icon;
+          return (
+            <div
+              class:list={[
+                'group relative overflow-hidden rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-h-[145px] sm:min-h-[160px]',
+                'bg-[#060b14]/60 backdrop-blur-xl border border-white/[0.08]',
+                'shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)]',
+                'transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)]',
+                index === 4 ? 'col-span-2 sm:col-span-1 md:col-span-1' : '',
+              ]}
+            >
+              <!-- Liquid Glass & Bottom-Left Glow Reflection -->
+              <div
+                class="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-primary/25 blur-2xl pointer-events-none transition-all duration-500 group-hover:bg-primary/45 group-hover:scale-110"
+                aria-hidden="true"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-tr from-primary/[0.12] via-transparent to-white/[0.02] pointer-events-none rounded-2xl"
+                aria-hidden="true"
+              />
+
+              <!-- Linhas de brilho sutil nas bordas inferior e esquerda -->
+              <div
+                class="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                class="absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-t from-primary/60 via-primary/20 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+
+              <!-- Top: Lucide Icon container -->
+              <div class="relative z-10 flex items-center justify-between">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary group-hover:border-primary/50 group-hover:bg-primary/20 group-hover:shadow-[0_0_12px_rgba(37,164,255,0.25)] transition-all duration-300">
+                  <IconComponent class="w-4 h-4 sm:w-5 sm:h-5 text-primary" stroke-width={1.75} aria-hidden="true" />
+                </div>
+              </div>
+
+              <!-- Bottom: Value and Label -->
+              <div class="relative z-10 mt-3 sm:mt-4 flex flex-col gap-0.5 sm:gap-1">
+                <span class="font-roc text-2xl sm:text-3xl xl:text-4xl tracking-tight text-primary">
+                  {stat.value}
+                </span>
+                <span class="font-sans text-xs sm:text-sm text-white/70 font-normal leading-snug">
+                  {stat.label}
+                </span>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
