@@ -1,7 +1,6 @@
 ---
 /**
- * LogoTicker: carrossel horizontal automático de logos.
- * Scroll contínuo da direita para a esquerda, infinito.
+ * Seção de Clientes Já Atendidos: grade de logos e wordmarks.
  */
 
 import logo15 from "../assets/logos/logo-15.svg";
@@ -17,8 +16,17 @@ import logoShallow from "../assets/logos/logo-shallow.svg";
 import logoSl from "../assets/logos/logo-sl.svg";
 
 const logos = [
-  logo15, logoDavi, logoEmergencial, logoFlorDeLo, logoFluence,
-  logoJanete, logoJsMetais, logoKazan, logoSantaTeresinha, logoShallow, logoSl,
+  logo15,
+  logoDavi,
+  logoEmergencial,
+  logoFlorDeLo,
+  logoFluence,
+  logoJanete,
+  logoJsMetais,
+  logoKazan,
+  logoSantaTeresinha,
+  logoShallow,
+  logoSl,
 ];
 
 /**
@@ -38,10 +46,10 @@ const textLogos = [
   "Y2V Digital",
 ];
 
-type TickerItem = { src?: string; name?: string };
+type ClientItem = { src?: string; name?: string };
 
 // Intercala logos e nomes para o texto não ficar agrupado
-const items: TickerItem[] = [];
+const items: ClientItem[] = [];
 const max = Math.max(logos.length, textLogos.length);
 for (let i = 0; i < max; i++) {
   const logo = logos[i];
@@ -50,128 +58,61 @@ for (let i = 0; i < max; i++) {
 }
 ---
 
-<div class="logo-ticker-wrapper">
-  <p class="ticker-label font-roc">Marcas que crescem com a ZNT</p>
+<section
+  id="clientes"
+  class="relative bg-black overflow-hidden py-16 lg:py-24 scroll-mt-24"
+  aria-label="Clientes já atendidos"
+>
+  <!-- Background glow azulado e textura quadriculada como na referência -->
+  <div
+    class="absolute inset-0 pointer-events-none z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(24,88,180,0.22)_0%,rgba(8,28,68,0.14)_45%,transparent_75%)]"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-grid-pattern opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_80%)]"
+    >
+    </div>
+  </div>
 
-  <div class="ticker-track-container">
-    <div class="ticker-track">
-      {[0, 1].map((copy) =>
+  <div class="relative z-10 w-full max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12">
+    <!-- Cabeçalho centralizado -->
+    <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+      <h2
+        class="font-roc font-normal text-2xl sm:text-3xl lg:text-[2.5rem] uppercase tracking-[0.06em] leading-tight text-white"
+      >
+        Clientes já atendidos
+      </h2>
+      <p class="mt-2 font-sans text-xs sm:text-sm md:text-base text-white/80">
+        Marcas que escolheram crescer com estratégia
+      </p>
+    </div>
+
+    <!-- Grade de clientes -->
+    <ul
+      class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-8 sm:gap-x-10 sm:gap-y-14 items-center justify-items-center"
+    >
+      {
         items.map((item, i) => (
-          <div class="ticker-item" aria-hidden={copy === 1 ? "true" : undefined}>
+          <li class="flex items-center justify-center w-full h-12 sm:h-16 px-1 sm:px-2">
             {item.src ? (
               <img
                 src={item.src}
-                alt={copy === 1 ? "" : `Logo cliente ${i + 1}`}
+                alt={`Logo cliente ${i + 1}`}
                 loading="lazy"
+                class="max-h-7 sm:max-h-11 lg:max-h-12 w-auto max-w-[95px] sm:max-w-[160px] object-contain opacity-85 hover:opacity-100 transition-all duration-300 hover:scale-105"
               />
             ) : (
-              <span class="ticker-wordmark font-roc">{item.name}</span>
+              <span class="font-roc text-xs sm:text-lg lg:text-[1.2rem] font-semibold tracking-tight text-white/85 hover:text-white text-center leading-tight transition-all duration-300 hover:scale-105 select-none">
+                {item.name}
+              </span>
             )}
-          </div>
+          </li>
         ))
-      )}
-    </div>
+      }
+    </ul>
   </div>
-</div>
-
-<style>
-  .logo-ticker-wrapper {
-    width: 100%;
-    margin-top: 2.5rem;
-  }
-
-  .ticker-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.35);
-    margin-bottom: 1rem;
-  }
-
-  .ticker-track-container {
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 10%,
-      black 90%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 10%,
-      black 90%,
-      transparent 100%
-    );
-  }
-
-  .ticker-track {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    width: max-content;
-    animation: marquee 55s linear infinite;
-  }
-
-  .ticker-item {
-    flex-shrink: 0;
-  }
-
-  .ticker-item img {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-  }
-
-  .ticker-item img:hover {
-    opacity: 1;
-  }
-
-  .ticker-wordmark {
-    display: block;
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 32px;
-    white-space: nowrap;
-    color: #fff;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-  }
-
-  .ticker-wordmark:hover {
-    opacity: 1;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(-50%);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .ticker-track {
-      gap: 2rem;
-      animation-duration: 40s;
-    }
-
-    .ticker-item img {
-      height: 24px;
-    }
-
-    .ticker-wordmark {
-      font-size: 0.9rem;
-      line-height: 24px;
-    }
-
-    .ticker-label {
-      text-align: center;
-    }
-  }
-</style>
+</section>

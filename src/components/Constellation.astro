@@ -1,5 +1,5 @@
 ---
-import { Asterisk } from "lucide-astro";
+import { Asterisk, ChevronDown } from "lucide-astro";
 
 interface Pillar {
   id: string;
@@ -128,7 +128,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
         </nav>
       </div>
 
-      <!-- Painéis: um por pilar, sempre abertos -->
+      <!-- Painéis: um por pilar (entregáveis recolhidos no mobile, sempre abertos no desktop) -->
       <div class="flex flex-col gap-5 lg:gap-0">
         {
           pillars.map((pillar, index) => (
@@ -136,11 +136,12 @@ const pad = (n: number) => String(n).padStart(2, "0");
               id={`pilar-${pillar.id}`}
               data-pillar-panel={pillar.id}
               data-active={index === 0 ? "true" : "false"}
+              data-expanded="false"
               class="pillar-panel scroll-mt-28 lg:min-h-[70vh] lg:flex lg:items-center lg:py-8"
               style={`--pillar: ${pillar.color};`}
               aria-labelledby={`pilar-${pillar.id}-title`}
             >
-              <div class="pillar-card relative w-full overflow-hidden rounded-3xl p-7 sm:p-10 bg-[#060b14]/60 backdrop-blur-xl border">
+              <div class="pillar-card relative w-full overflow-hidden rounded-3xl p-7 sm:p-10 bg-[#060b14]/60 backdrop-blur-xl border cursor-pointer lg:cursor-default">
                 {/* Glow na cor do pilar */}
                 <div
                   class="pillar-glow absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[90px] pointer-events-none"
@@ -172,20 +173,56 @@ const pad = (n: number) => String(n).padStart(2, "0");
                   >
                     {pillar.tagline}
                   </h3>
-                  <p class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl mb-7">
+                  <p class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl mb-5 lg:mb-7">
                     {pillar.description}
                   </p>
 
-                  <ul class="flex flex-wrap gap-2.5">
-                    {pillar.items.map((item, i) => (
-                      <li
-                        class="pillar-chip inline-flex items-center px-5 py-2.5 rounded-full font-roc text-sm text-white bg-white/[0.04] border border-white/15 transition-all duration-300 hover:bg-white/10 hover:border-[var(--pillar)] hover:shadow-[0_0_14px_-4px_var(--pillar)]"
-                        style={`--i: ${i};`}
+                  {/* Botão de expandir/recolher entregáveis (apenas mobile) */}
+                  <button
+                    type="button"
+                    data-pillar-toggle={pillar.id}
+                    aria-expanded="false"
+                    aria-controls={`pilar-${pillar.id}-deliverables`}
+                    class="pillar-toggle lg:hidden flex w-full items-center justify-between gap-3 pt-4 border-t border-white/10 font-roc text-sm text-white/80 transition-colors duration-300 hover:text-white cursor-pointer"
+                  >
+                    <span class="flex items-center gap-2.5">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full transition-transform duration-300"
+                        style={`background-color: ${pillar.color};`}
+                        aria-hidden="true"
+                      />
+                      <span
+                        data-toggle-label
+                        data-count={pad(pillar.items.length)}
                       >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                        Ver {pad(pillar.items.length)} entregáveis
+                      </span>
+                    </span>
+                    <span
+                      class="pillar-toggle-icon inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/[0.05] border border-white/15 transition-all duration-300"
+                      aria-hidden="true"
+                    >
+                      <ChevronDown class="w-4 h-4 transition-transform duration-300" />
+                    </span>
+                  </button>
+
+                  <div
+                    id={`pilar-${pillar.id}-deliverables`}
+                    class="pillar-deliverables"
+                  >
+                    <div class="overflow-hidden">
+                      <ul class="flex flex-wrap gap-2.5 pt-5 lg:pt-0">
+                        {pillar.items.map((item, i) => (
+                          <li
+                            class="pillar-chip inline-flex items-center px-5 py-2.5 rounded-full font-roc text-sm text-white bg-white/[0.04] border border-white/15 transition-all duration-300 hover:bg-white/10 hover:border-[var(--pillar)] hover:shadow-[0_0_14px_-4px_var(--pillar)]"
+                            style={`--i: ${i};`}
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
@@ -215,6 +252,45 @@ const pad = (n: number) => String(n).padStart(2, "0");
       nav.setAttribute("data-active", String(nav.dataset.pillarNav === id));
     });
   }
+
+  function toggleDeliverables(panel: HTMLElement) {
+    const isExpanded = panel.getAttribute("data-expanded") === "true";
+    const nextState = !isExpanded;
+    panel.setAttribute("data-expanded", String(nextState));
+
+    const toggleBtn = panel.querySelector<HTMLButtonElement>("[data-pillar-toggle]");
+    const labelEl = panel.querySelector<HTMLElement>("[data-toggle-label]");
+
+    if (toggleBtn) {
+      toggleBtn.setAttribute("aria-expanded", String(nextState));
+    }
+    if (labelEl) {
+      const count = labelEl.dataset.count ?? "";
+      labelEl.textContent = nextState
+        ? "Ocultar entregáveis"
+        : `Ver ${count} entregáveis`;
+    }
+
+    if (nextState && panel.dataset.pillarPanel) {
+      activate(panel.dataset.pillarPanel);
+    }
+  }
+
+  panels.forEach((panel) => {
+    const card = panel.querySelector<HTMLElement>(".pillar-card");
+    const toggleBtn = panel.querySelector<HTMLButtonElement>("[data-pillar-toggle]");
+
+    toggleBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDeliverables(panel);
+    });
+
+    card?.addEventListener("click", () => {
+      if (window.matchMedia("(max-width: 1023px)").matches) {
+        toggleDeliverables(panel);
+      }
+    });
+  });
 
   // O pilar que cruza a faixa central da tela abre automaticamente
   const observer = new IntersectionObserver(
@@ -285,7 +361,39 @@ const pad = (n: number) => String(n).padStart(2, "0");
     filter: drop-shadow(0 0 10px currentColor);
   }
 
-  /* Entregáveis entram em sequência na primeira vez que o pilar abre */
+  /* Accordion de entregáveis no mobile */
+  .pillar-deliverables {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.35s ease;
+  }
+  .pillar-panel[data-expanded="true"] .pillar-deliverables {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .pillar-panel[data-expanded="true"] .pillar-toggle {
+    color: var(--pillar);
+  }
+  .pillar-panel[data-expanded="true"] .pillar-toggle-icon {
+    border-color: color-mix(in srgb, var(--pillar) 50%, transparent);
+    background-color: color-mix(in srgb, var(--pillar) 12%, transparent);
+    color: var(--pillar);
+  }
+  .pillar-panel[data-expanded="true"] .pillar-toggle-icon svg {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 1024px) {
+    .pillar-deliverables {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+  }
+
+  /* Entregáveis entram em sequência */
   .pillar-panel .pillar-chip {
     transition:
       opacity 0.5s ease calc(var(--i) * 60ms),
@@ -294,13 +402,22 @@ const pad = (n: number) => String(n).padStart(2, "0");
       border-color 0.3s,
       box-shadow 0.3s;
   }
-  .pillar-panel[data-seen="false"] .pillar-chip {
-    opacity: 0;
-    transform: translateY(8px);
+  @media (max-width: 1023px) {
+    .pillar-panel[data-expanded="false"] .pillar-chip {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  @media (min-width: 1024px) {
+    .pillar-panel[data-seen="false"] .pillar-chip {
+      opacity: 0;
+      transform: translateY(8px);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pillar-panel[data-seen="false"] .pillar-chip {
+    .pillar-panel[data-seen="false"] .pillar-chip,
+    .pillar-panel[data-expanded="false"] .pillar-chip {
       opacity: 1;
       transform: none;
     }
