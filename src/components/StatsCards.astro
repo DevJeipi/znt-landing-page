@@ -1,36 +1,30 @@
 ---
-import { Rocket, BarChart3, Target, Globe, Clock } from 'lucide-astro';
+import { Rocket, Eye, Users, DollarSign } from 'lucide-astro';
 
 const stats = [
   {
     id: '1',
-    value: '+120',
-    label: 'Projetos entregues',
-    icon: Rocket,
+    value: '+5,2M',
+    label: 'De receita por mídia paga',
+    icon: DollarSign,
   },
   {
     id: '2',
-    value: '+8M',
-    label: 'Alcance gerado',
-    icon: BarChart3,
+    value: '+44,7M',
+    label: 'Visualizações geradas',
+    icon: Eye,
   },
   {
     id: '3',
-    value: '97%',
-    label: 'Clientes recorrentes',
-    icon: Target,
+    value: '+35',
+    label: 'Clientes atendidos',
+    icon: Users,
   },
   {
     id: '4',
-    value: '+312%',
-    label: 'Crescimento médio',
-    icon: Globe,
-  },
-  {
-    id: '5',
-    value: '5 anos',
-    label: 'De mercado',
-    icon: Clock,
+    value: '+1200',
+    label: 'Projetos entregues',
+    icon: Rocket,
   },
 ];
 ---
@@ -49,12 +43,12 @@ const stats = [
   </div>
 
   <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
-    <!-- Grid dos 5 cards -->
+    <!-- Grid dos 4 cards -->
     <div
-      class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 lg:gap-5"
+      class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5"
     >
       {
-        stats.map((stat, index) => {
+        stats.map((stat) => {
           const IconComponent = stat.icon;
           return (
             <div
@@ -63,7 +57,6 @@ const stats = [
                 'bg-[#060b14]/60 backdrop-blur-xl border border-white/[0.08]',
                 'shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)]',
                 'transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)]',
-                index === 4 ? 'col-span-2 sm:col-span-1 md:col-span-1' : '',
               ]}
             >
               <!-- Liquid Glass & Bottom-Left Glow Reflection -->
