@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 interface Props {
   title?: string;
   description?: string;
@@ -29,16 +31,36 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
 
-    <!-- Adobe Fonts (Typekit): Roc Grotesk -->
-    <link rel="stylesheet" href="https://use.typekit.net/sut5pxx.css" />
-
-    <!-- Google Fonts: Inter -->
+    <!-- Preconnects para fontes externas -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="preconnect" href="https://p.typekit.net" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Adobe Fonts (Typekit): Roc Grotesk (carregamento assíncrono para não bloquear renderização) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://use.typekit.net/sut5pxx.css"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link rel="stylesheet" href="https://use.typekit.net/sut5pxx.css" />
+    </noscript>
+
+    <!-- Google Fonts: Inter (apenas pesos utilizados: 400, 500, 600) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body
     class="bg-black text-white antialiased selection:bg-[#25a4ff] selection:text-white font-sans"
@@ -46,7 +68,3 @@ const {
     <slot />
   </body>
 </html>
-
-<style is:global>
-  @import "../styles/global.css";
-</style>

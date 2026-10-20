@@ -4,9 +4,10 @@ import { Image } from "astro:assets";
 
 interface Props {
   class?: string;
+  loading?: "eager" | "lazy";
 }
 
-const { class: className = "" } = Astro.props;
+const { class: className = "", loading = "eager" } = Astro.props;
 ---
 
 <a
@@ -17,7 +18,10 @@ const { class: className = "" } = Astro.props;
   <Image
     src={logoImage}
     alt="Logo ZNT Marketing"
+    widths={[160, 240]}
+    sizes="120px"
     class="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-    loading="eager"
+    loading={loading}
+    decoding="async"
   />
 </a>
