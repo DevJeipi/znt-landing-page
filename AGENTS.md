@@ -33,8 +33,8 @@ All commands run from the project root:
 
 - `src/pages/` — page components (only `index.astro`)
 - `src/layouts/` — `Layout.astro` (base HTML, loads `src/styles/global.css`, sets `--color-primary`/`--color-primary-light`/`--color-primary-dark`/`--font-roc`/`--font-sans` tokens)
-- `src/components/` — reusable components: `Header.astro`, `Hero.astro`, `Welcome.astro`, `Logo.astro`, `LogoTicker.astro`
-- `src/assets/` — images and logos
+- `src/components/` — section and UI components: `Header.astro`, `Hero.astro`, `Logo.astro`, `LogoTicker.astro`, `StatsCards.astro`, `Constellation.astro`, `Team.astro`, `Cases.astro`, `Footer.astro`
+- `src/assets/` — images and `logos/`
 - `dist/` — build output (gitignored)
 - `.astro/` — generated types (gitignored)
 
