@@ -8,16 +8,15 @@ const nav = [
   { label: "Início", href: "#hero" },
   { label: "Serviços", href: "#servicos" },
   { label: "Cases", href: "#cases" },
-  { label: "Metodologia", href: "#metodologia" },
 ];
 
 const pillars = [
-  { label: "Estratégia", href: "#constelacao" },
-  { label: "Performance", href: "#constelacao" },
-  { label: "Inovação", href: "#constelacao" },
-  { label: "Planejamento Macro", href: "#planejamento-macro" },
-  { label: "Máquina de Conteúdo", href: "#maquina" },
+  { label: "Estratégia", href: "#pilar-estrategia" },
+  { label: "Performance", href: "#pilar-performance" },
+  { label: "Inovação", href: "#pilar-inovacao" },
 ];
+
+const EMAIL = "contato@agenciaznt.com.br";
 
 const WHATSAPP_URL = "https://wa.me/5551986154167";
 const social = [
@@ -61,11 +60,19 @@ const social = [
     <div
       class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 lg:pb-12 border-b border-white/10"
     >
-      <h2
-        class="font-roc font-medium tracking-tight leading-[1.05] text-white text-[clamp(2rem,5vw,3.75rem)] max-w-2xl"
-      >
-        Pronto pra alcançar o nível mais alto da sua marca?
-      </h2>
+      <div class="max-w-2xl">
+        <h2
+          class="font-roc font-medium tracking-tight leading-[1.05] text-white text-[clamp(2rem,5vw,3.75rem)]"
+        >
+          Pronto pra alcançar o nível mais alto da sua marca?
+        </h2>
+        <p
+          class="mt-5 font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-xl"
+        >
+          Estratégia que constrói narrativa. Branding, conteúdo, tráfego e
+          tecnologia pra marcas que querem crescer de verdade.
+        </p>
+      </div>
       <a
         href={WHATSAPP_URL}
         target="_blank"
@@ -89,9 +96,17 @@ const social = [
         <p
           class="mt-4 font-sans text-sm text-white/55 leading-relaxed max-w-xs"
         >
-          Estratégia que constrói narrativa. Branding, conteúdo, tráfego e
-          automação pra marcas que querem crescer de verdade.
+          Estratégia que constrói narrativa.
         </p>
+        <p class="mt-5 font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-2">
+          Contato
+        </p>
+        <a
+          href={`mailto:${EMAIL}`}
+          class="font-sans text-sm text-white/75 hover:text-primary transition-colors duration-200"
+        >
+          {EMAIL}
+        </a>
         <ul class="mt-5 flex items-center gap-2.5">
           {
             social.map((item) => {
