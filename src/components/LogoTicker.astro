@@ -20,6 +20,34 @@ const logos = [
   logo15, logoDavi, logoEmergencial, logoFlorDeLo, logoFluence,
   logoJanete, logoJsMetais, logoKazan, logoSantaTeresinha, logoShallow, logoSl,
 ];
+
+/**
+ * Clientes ainda sem arquivo de logo: exibidos como texto (wordmark).
+ * Quando o arquivo chegar, coloque em `src/assets/logos/`, importe acima
+ * e mova o cliente para o array `logos`.
+ */
+const textLogos = [
+  "LLs Mix",
+  "Psicólogo Bauer",
+  "Criamigos",
+  "Growdev",
+  "Growlabs",
+  "Meu Sapato Preto",
+  "Sapato que Dobra",
+  "Meu Sapato Colorido",
+  "Y2V Digital",
+];
+
+type TickerItem = { src?: string; name?: string };
+
+// Intercala logos e nomes para o texto não ficar agrupado
+const items: TickerItem[] = [];
+const max = Math.max(logos.length, textLogos.length);
+for (let i = 0; i < max; i++) {
+  const logo = logos[i];
+  if (logo) items.push({ src: typeof logo === "string" ? logo : logo.src });
+  if (textLogos[i]) items.push({ name: textLogos[i] });
+}
 ---
 
 <div class="logo-ticker-wrapper">
@@ -27,25 +55,21 @@ const logos = [
 
   <div class="ticker-track-container">
     <div class="ticker-track">
-      {logos.map((logo, i) => (
-        <div class="ticker-item">
-          <img
-            src={typeof logo === "string" ? logo : logo.src}
-            alt={`Logo cliente ${i + 1}`}
-            loading="lazy"
-          />
-        </div>
-      ))}
-      {/* Duplicata para loop contínuo */}
-      {logos.map((logo) => (
-        <div class="ticker-item" aria-hidden="true">
-          <img
-            src={typeof logo === "string" ? logo : logo.src}
-            alt=""
-            loading="lazy"
-          />
-        </div>
-      ))}
+      {[0, 1].map((copy) =>
+        items.map((item, i) => (
+          <div class="ticker-item" aria-hidden={copy === 1 ? "true" : undefined}>
+            {item.src ? (
+              <img
+                src={item.src}
+                alt={copy === 1 ? "" : `Logo cliente ${i + 1}`}
+                loading="lazy"
+              />
+            ) : (
+              <span class="ticker-wordmark font-roc">{item.name}</span>
+            )}
+          </div>
+        ))
+      )}
     </div>
   </div>
 </div>
@@ -87,7 +111,7 @@ const logos = [
     align-items: center;
     gap: 3rem;
     width: max-content;
-    animation: marquee 30s linear infinite;
+    animation: marquee 55s linear infinite;
   }
 
   .ticker-item {
@@ -106,6 +130,22 @@ const logos = [
     opacity: 1;
   }
 
+  .ticker-wordmark {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 32px;
+    white-space: nowrap;
+    color: #fff;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  .ticker-wordmark:hover {
+    opacity: 1;
+  }
+
   @keyframes marquee {
     0% {
       transform: translateX(-50%);
@@ -118,11 +158,16 @@ const logos = [
   @media (max-width: 640px) {
     .ticker-track {
       gap: 2rem;
-      animation-duration: 20s;
+      animation-duration: 40s;
     }
 
     .ticker-item img {
       height: 24px;
+    }
+
+    .ticker-wordmark {
+      font-size: 0.9rem;
+      line-height: 24px;
     }
 
     .ticker-label {
