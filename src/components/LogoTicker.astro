@@ -15,6 +15,7 @@ import logoJanete from "../assets/logos/logo-janete.svg";
 import logoJsMetais from "../assets/logos/logo-js-metais.svg";
 import logoKazan from "../assets/logos/logo-kazan.svg";
 import logoLlmix from "../assets/logos/logo-llmix.webp";
+import logoLuizaBarcelos from "../assets/logos/logo-luiza-barcelos.webp";
 import logoMeuSapatoColorido from "../assets/logos/logo-meu-sapato-colorido.webp";
 import logoMeuSapatoPreto from "../assets/logos/logo-meu-sapato-preto.webp";
 import logoSantaTeresinha from "../assets/logos/logo-santa-teresinha.svg";
@@ -25,9 +26,14 @@ import logoY2v from "../assets/logos/logo-y2v.webp";
 
 const logos = [
   { meta: logo15, alt: "Logo 15" },
+  { meta: logoLuizaBarcelos, alt: "Logo Luiza Barcelos" },
   { meta: logoLlmix, alt: "Logo LLs Mix" },
   { meta: logoDavi, alt: "Logo Davi" },
-  { meta: logoCriamigos, alt: "Logo Criamigos" },
+  {
+    meta: logoCriamigos,
+    alt: "Logo Criamigos",
+    className: "max-h-10 sm:max-h-13 lg:max-h-14",
+  },
   { meta: logoEmergencial, alt: "Logo Emergencial" },
   { meta: logoGrowdev, alt: "Logo Growdev" },
   {
@@ -94,10 +100,10 @@ for (let i = 0; i < max; i++) {
 
 <section
   id="clientes"
-  class="relative bg-black overflow-hidden py-16 lg:py-24 scroll-mt-24"
+  class="relative bg-black overflow-hidden py-12 lg:py-16 scroll-mt-24"
   aria-label="Clientes já atendidos"
 >
-  <!-- Background glow azulado e textura quadriculada como na referência -->
+  <!-- Background glow azulado e textura quadriculada -->
   <div
     class="absolute inset-0 pointer-events-none z-0 overflow-hidden"
     aria-hidden="true"
@@ -112,9 +118,9 @@ for (let i = 0; i < max; i++) {
     </div>
   </div>
 
-  <div class="relative z-10 w-full max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12">
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
     <!-- Cabeçalho centralizado -->
-    <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
       <h2
         class="font-roc font-normal text-2xl sm:text-3xl lg:text-[2.5rem] uppercase tracking-[0.06em] leading-tight text-white"
       >
@@ -125,34 +131,91 @@ for (let i = 0; i < max; i++) {
       </p>
     </div>
 
-    <!-- Grade de clientes -->
-    <ul
-      class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-8 sm:gap-x-10 sm:gap-y-14 items-center justify-items-center"
-    >
-      {
-        items.map((item, i) => (
-          <li class="flex items-center justify-center w-full h-14 sm:h-18 px-1 sm:px-2">
-            {item.src ? (
-              <img
-                src={item.src}
-                width={item.width}
-                height={item.height}
-                alt={item.alt ?? `Logo cliente ${i + 1}`}
-                loading="lazy"
-                decoding="async"
-                class:list={[
-                  item.className ?? "max-h-7 sm:max-h-11 lg:max-h-12",
-                  "w-auto max-w-[95px] sm:max-w-[160px] object-contain opacity-85 hover:opacity-100 transition-all duration-300 hover:scale-105",
-                ]}
-              />
-            ) : (
-              <span class="font-roc text-xs sm:text-lg lg:text-[1.2rem] font-semibold tracking-tight text-white/85 hover:text-white text-center leading-tight transition-all duration-300 hover:scale-105 select-none">
-                {item.name}
-              </span>
-            )}
-          </li>
-        ))
-      }
-    </ul>
+    <!-- Slider infinito de clientes -->
+    <div class="ticker-track-container">
+      <div class="ticker-track">
+        {
+          [0, 1].map((copy) =>
+            items.map((item, i) => (
+              <div
+                class="ticker-item flex items-center justify-center h-16 sm:h-20"
+                aria-hidden={copy === 1 ? "true" : undefined}
+              >
+                {item.src ? (
+                  <img
+                    src={item.src}
+                    width={item.width}
+                    height={item.height}
+                    alt={copy === 1 ? "" : (item.alt ?? `Logo cliente ${i + 1}`)}
+                    loading="lazy"
+                    decoding="async"
+                    class:list={[
+                      item.className ?? "max-h-8 sm:max-h-11 lg:max-h-12",
+                      "w-auto max-w-[130px] sm:max-w-[165px] object-contain opacity-80 hover:opacity-100 transition-all duration-300 hover:scale-105",
+                    ]}
+                  />
+                ) : (
+                  <span class="font-roc text-sm sm:text-lg lg:text-[1.2rem] font-semibold tracking-tight text-white/80 hover:text-white text-center leading-tight whitespace-nowrap transition-all duration-300 hover:scale-105 select-none">
+                    {item.name}
+                  </span>
+                )}
+              </div>
+            )),
+          )
+        }
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .ticker-track-container {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    gap: 3.5rem;
+    width: max-content;
+    animation: marquee 50s linear infinite;
+  }
+
+  .ticker-track:hover {
+    animation-play-state: paused;
+  }
+
+  .ticker-item {
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ticker-track {
+      gap: 2.25rem;
+      animation-duration: 38s;
+    }
+  }
+</style>
