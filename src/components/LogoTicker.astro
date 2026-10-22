@@ -147,7 +147,7 @@ for (let i = 0; i < max; i++) {
                     width={item.width}
                     height={item.height}
                     alt={copy === 1 ? "" : (item.alt ?? `Logo cliente ${i + 1}`)}
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
                     class:list={[
                       item.className ?? "max-h-8 sm:max-h-11 lg:max-h-12",
@@ -187,12 +187,18 @@ for (let i = 0; i < max; i++) {
     );
   }
 
+  /*
+   * Espaçamento via padding em cada item (e não `gap`): com `gap`, a metade
+   * do track fica meio gap fora do início da 2ª cópia, causando um "pulo"
+   * no reinício da animação.
+   */
   .ticker-track {
     display: flex;
     align-items: center;
-    gap: 3.5rem;
     width: max-content;
     animation: marquee 50s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
   .ticker-track:hover {
@@ -201,21 +207,25 @@ for (let i = 0; i < max; i++) {
 
   .ticker-item {
     flex-shrink: 0;
+    padding-right: 3.5rem;
   }
 
   @keyframes marquee {
     0% {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
   @media (max-width: 640px) {
     .ticker-track {
-      gap: 2.25rem;
       animation-duration: 38s;
+    }
+
+    .ticker-item {
+      padding-right: 2.25rem;
     }
   }
 </style>
