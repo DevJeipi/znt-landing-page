@@ -1,15 +1,127 @@
 ---
 import "../styles/global.css";
+import { SITE, faqs, mapsUrl } from "../data/site";
+import { pillars } from "../data/services";
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 const {
-  title = "ZNT | Agência de Marketing de Conteúdo",
-  description = "Transformamos marcas em sistemas de crescimento através de branding, conteúdo, tráfego e automação orientados a dados.",
+  title = SITE.title,
+  description = SITE.description,
+  image = SITE.ogImage,
+  imageAlt = SITE.ogImageAlt,
 } = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(SITE.url);
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const imageUrl = new URL(image, siteUrl).href;
+const logoUrl = new URL("/favicon/android-chrome-512x512.png", siteUrl).href;
+
+const orgId = `${SITE.url}/#organization`;
+const websiteId = `${SITE.url}/#website`;
+const webpageId = `${canonicalUrl}#webpage`;
+
+/**
+ * Dados estruturados (schema.org / JSON-LD): ajudam o Google a montar rich
+ * results e o painel da empresa, e dão a IAs generativas (ChatGPT, Gemini,
+ * Perplexity) fatos claros e verificáveis sobre a ZNT.
+ */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": orgId,
+      name: SITE.name,
+      legalName: SITE.legalName,
+      alternateName: SITE.alternateNames,
+      slogan: SITE.slogan,
+      description: SITE.summary,
+      url: SITE.url,
+      logo: { "@type": "ImageObject", url: logoUrl, width: 512, height: 512 },
+      image: imageUrl,
+      email: SITE.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SITE.address.streetAddress,
+        addressLocality: SITE.address.addressLocality,
+        addressRegion: SITE.address.addressRegion,
+        addressCountry: SITE.address.addressCountry,
+      },
+      hasMap: mapsUrl,
+      areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: SITE.email,
+        url: SITE.ctaUrl,
+        availableLanguage: "Portuguese",
+      },
+      sameAs: Object.values(SITE.social),
+      knowsAbout: [
+        "Marketing de conteúdo",
+        "Marketing digital",
+        "Gestão de redes sociais",
+        "Tráfego pago",
+        "Branding",
+        "Audiovisual",
+        "CRM",
+        "Automação de marketing",
+        "Inteligência artificial aplicada ao marketing",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Serviços de marketing da ZNT",
+        itemListElement: pillars.map((pillar) => ({
+          "@type": "OfferCatalog",
+          name: pillar.name,
+          description: pillar.description,
+          itemListElement: pillar.items.map((item) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: item, provider: { "@id": orgId } },
+          })),
+        })),
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: SITE.url,
+      name: SITE.name,
+      alternateName: SITE.alternateNames,
+      description: SITE.description,
+      inLanguage: SITE.language,
+      publisher: { "@id": orgId },
+    },
+    {
+      "@type": "WebPage",
+      "@id": webpageId,
+      url: canonicalUrl,
+      name: title,
+      description,
+      inLanguage: SITE.language,
+      isPartOf: { "@id": websiteId },
+      about: { "@id": orgId },
+      primaryImageOfPage: { "@type": "ImageObject", url: imageUrl },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      isPartOf: { "@id": webpageId },
+      inLanguage: SITE.language,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -27,12 +139,42 @@ const {
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="author" content={SITE.legalName} />
     <meta name="theme-color" content="#000000" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
+
+    <!-- Geo (SEO local) -->
+    <meta name="geo.region" content={SITE.address.regionCode} />
+    <meta name="geo.placename" content={SITE.address.addressLocality} />
 
     <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <!-- Dados estruturados (schema.org) -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Preconnects para fontes externas -->
     <link rel="preconnect" href="https://use.typekit.net" crossorigin />

@@ -1,6 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import { Instagram, Linkedin, Mail, ArrowUp, ArrowRight } from "lucide-astro";
+import { SITE } from "../data/site";
 
 const year = new Date().getFullYear();
 
@@ -8,6 +9,7 @@ const nav = [
   { label: "Início", href: "#hero" },
   { label: "Serviços", href: "#constelacao" },
   { label: "Cases", href: "#cases" },
+  { label: "Perguntas frequentes", href: "#perguntas-frequentes" },
 ];
 
 const pillars = [
@@ -101,12 +103,18 @@ const social = [
         <p class="mt-5 font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-2">
           Contato
         </p>
-        <a
-          href={`mailto:${EMAIL}`}
-          class="font-sans text-sm text-white/75 hover:text-primary transition-colors duration-200"
-        >
-          {EMAIL}
-        </a>
+        <address class="not-italic flex flex-col gap-1.5">
+          <a
+            href={`mailto:${EMAIL}`}
+            class="font-sans text-sm text-white/75 hover:text-primary transition-colors duration-200"
+          >
+            {EMAIL}
+          </a>
+          <span class="font-sans text-sm text-white/55">
+            {SITE.address.streetAddress}, {SITE.address.neighborhood},
+            {SITE.address.addressLocality} - {SITE.address.addressRegion}
+          </span>
+        </address>
         <ul class="mt-5 flex items-center gap-2.5">
           {
             social.map((item) => {

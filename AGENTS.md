@@ -31,12 +31,19 @@ All commands run from the project root:
 
 ### Project structure
 
-- `src/pages/` — page components (only `index.astro`)
-- `src/layouts/` — `Layout.astro` (base HTML, loads `src/styles/global.css`, sets `--color-primary`/`--color-primary-light`/`--color-primary-dark`/`--font-roc`/`--font-sans` tokens)
-- `src/components/` — section and UI components: `Header.astro`, `Hero.astro`, `Logo.astro`, `LogoTicker.astro`, `StatsCards.astro`, `Constellation.astro`, `Team.astro`, `Cases.astro`, `Footer.astro`
+- `src/pages/` — page components (`index.astro`) and the `llms.txt.ts` endpoint (generates `/llms.txt` for AI assistants)
+- `src/layouts/` — `Layout.astro` (base HTML, loads `src/styles/global.css`, sets `--color-primary`/`--color-primary-light`/`--color-primary-dark`/`--font-roc`/`--font-sans` tokens; renders SEO/Open Graph meta tags and the schema.org JSON-LD)
+- `src/components/` — section and UI components: `Header.astro`, `Hero.astro`, `Logo.astro`, `LogoTicker.astro`, `StatsCards.astro`, `Constellation.astro`, `Team.astro`, `Cases.astro`, `Faq.astro`, `Footer.astro`
+- `src/data/` — single source of truth for content reused across sections, JSON-LD and `/llms.txt`: `site.ts` (company info, address, contact, SEO title/description, FAQ), `services.ts` (service pillars), `cases.ts` (success cases)
 - `src/assets/` — images and `logos/`
+- `public/` — `robots.txt`, `og-image.jpg` (1200x630 social share image) and `favicon/`
 - `dist/` — build output (gitignored)
 - `.astro/` — generated types (gitignored)
+
+### SEO
+
+- Production URL is `https://www.agenciaznt.com.br` (set as `site` in `astro.config.mjs`); `@astrojs/sitemap` generates `/sitemap-index.xml` on build.
+- When changing company data (address, services, cases, FAQ), edit `src/data/` so the page, JSON-LD and `/llms.txt` stay consistent.
 
 ### Fonts
 
