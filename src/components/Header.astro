@@ -61,24 +61,18 @@ const navItems = [
         <button
           id="mobile-menu-btn"
           type="button"
-          class="lg:hidden p-2.5 rounded-full text-white/80 hover:text-white hover:bg-white/15 transition-all"
+          class="lg:hidden p-2.5 rounded-full text-white/80 hover:text-white hover:bg-white/15 transition-all cursor-pointer"
           aria-label="Abrir menu de navegação"
           aria-expanded="false"
         >
-          <svg
-            class="w-6 h-6"
-            fill="none"
+          <span
+            class="relative flex items-center justify-center w-6 h-6"
             aria-hidden="true"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
+            <span class="hamburger-line hamburger-line-1"></span>
+            <span class="hamburger-line hamburger-line-2"></span>
+            <span class="hamburger-line hamburger-line-3"></span>
+          </span>
         </button>
       </div>
     </div>
@@ -147,3 +141,41 @@ const navItems = [
     });
   }
 </script>
+
+<style>
+  .hamburger-line {
+    position: absolute;
+    width: 1.25rem;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 9999px;
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.25s ease;
+  }
+
+  .hamburger-line-1 {
+    transform: translateY(-6px);
+  }
+
+  .hamburger-line-2 {
+    transform: translateY(0);
+  }
+
+  .hamburger-line-3 {
+    transform: translateY(6px);
+  }
+
+  #mobile-menu-btn[aria-expanded="true"] .hamburger-line-1 {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  #mobile-menu-btn[aria-expanded="true"] .hamburger-line-2 {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  #mobile-menu-btn[aria-expanded="true"] .hamburger-line-3 {
+    transform: translateY(0) rotate(-45deg);
+  }
+</style>

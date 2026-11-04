@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight } from "lucide-astro";
+import { ArrowUpRight, X } from "lucide-astro";
 import { cases } from "../data/cases";
 ---
 
@@ -40,7 +40,14 @@ import { cases } from "../data/cases";
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
       {
         cases.map((item) => (
-          <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060b14]/60 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)]">
+          <article
+            class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060b14]/60 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(37,164,255,0.18)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            tabindex="0"
+            role="button"
+            aria-haspopup="dialog"
+            aria-label={`Ver case do cliente ${item.client}: ${item.title}`}
+            data-case-card={item.id}
+          >
             {/* Mídia do case: foto ou vídeo */}
             <div class="relative h-52 sm:h-56 overflow-hidden">
               {item.mediaType === "video" && item.mediaSrc ? (
@@ -73,16 +80,13 @@ import { cases } from "../data/cases";
                 class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060b14] to-transparent pointer-events-none"
                 aria-hidden="true"
               />
-              {/* Botão expandir (só existe quando o case tem página própria) */}
-              {item.href && (
-                <a
-                  href={item.href}
-                  aria-label={`Abrir case: ${item.title}`}
-                  class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300"
-                >
-                  <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
-                </a>
-              )}
+              {/* Botão indicador de expansão */}
+              <div
+                class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80 group-hover:text-white group-hover:border-primary/60 group-hover:bg-primary/20 transition-all duration-300 pointer-events-none"
+                aria-hidden="true"
+              >
+                <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+              </div>
             </div>
 
             {/* Conteúdo */}
@@ -136,4 +140,215 @@ import { cases } from "../data/cases";
       }
     </div>
   </div>
+
+  <!-- Modal com banner 16:9 e título (nome do cliente) -->
+  <div
+    id="case-modal-backdrop"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="case-modal-title"
+  >
+    <div
+      id="case-modal-container"
+      class="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#060b14] shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_50px_rgba(37,164,255,0.15)] scale-95 opacity-0 transition-all duration-300"
+    >
+      <!-- Botão Fechar -->
+      <button
+        type="button"
+        id="case-modal-close"
+        aria-label="Fechar modal"
+        class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center cursor-pointer"
+      >
+        <X class="w-4 h-4" aria-hidden="true" />
+      </button>
+
+      <!-- Banner 16:9 -->
+      <div class="relative w-full aspect-video bg-black overflow-hidden">
+        <!-- Imagem do Banner -->
+        <img
+          id="case-modal-img"
+          src=""
+          alt=""
+          class="hidden absolute inset-0 w-full h-full object-cover"
+        />
+
+        <!-- Vídeo do Banner -->
+        <video
+          id="case-modal-video"
+          src=""
+          poster=""
+          class="hidden absolute inset-0 w-full h-full object-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+          controls
+        ></video>
+
+        <!-- Fallback Decorativo do Banner -->
+        <div
+          id="case-modal-fallback"
+          class="hidden absolute inset-0 bg-grid-pattern overflow-hidden"
+          aria-hidden="true"
+        >
+          <div class="absolute -top-16 left-1/4 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.35)_0%,transparent_70%)] blur-[70px]"></div>
+          <div class="absolute -bottom-10 right-1/4 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.2)_0%,transparent_70%)] blur-[60px]"></div>
+        </div>
+
+        <!-- Fade sutil na base do banner -->
+        <div
+          class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060b14] to-transparent pointer-events-none"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <!-- Título do Modal: Nome do Cliente -->
+      <div class="relative px-6 py-5 sm:px-8 sm:py-6">
+        <div
+          class="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-primary/60 via-primary/20 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          class="absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-t from-primary/60 via-primary/20 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+        <h3
+          id="case-modal-title"
+          class="font-roc text-xl sm:text-2xl lg:text-3xl text-white leading-tight tracking-tight font-normal"
+        >
+        </h3>
+      </div>
+    </div>
+  </div>
 </section>
+
+<!-- Dados dos cases para o script do modal -->
+<script type="application/json" id="cases-data" set:html={JSON.stringify(cases)} />
+
+<script>
+  import type { CaseItem } from "../data/cases";
+
+  const dataEl = document.getElementById("cases-data");
+  const casesData: CaseItem[] = dataEl ? JSON.parse(dataEl.textContent || "[]") : [];
+
+  const backdrop = document.getElementById("case-modal-backdrop");
+  const container = document.getElementById("case-modal-container");
+  const closeBtn = document.getElementById("case-modal-close");
+
+  const modalImg = document.getElementById("case-modal-img") as HTMLImageElement | null;
+  const modalVideo = document.getElementById("case-modal-video") as HTMLVideoElement | null;
+  const modalFallback = document.getElementById("case-modal-fallback");
+  const modalTitle = document.getElementById("case-modal-title");
+
+  let lastFocusedElement: HTMLElement | null = null;
+
+  function openModal(caseId: string, triggerElement?: HTMLElement) {
+    const item = casesData.find((c) => c.id === caseId);
+    if (!item || !backdrop || !container) return;
+
+    lastFocusedElement = triggerElement || (document.activeElement as HTMLElement | null);
+
+    // Título: nome do cliente
+    if (modalTitle) modalTitle.textContent = item.client;
+
+    // Banner 16:9
+    const bannerSrc = item.bannerSrc || item.mediaSrc;
+    if (item.mediaType === "video" && bannerSrc && modalVideo) {
+      modalVideo.src = bannerSrc;
+      modalVideo.poster = item.poster || "";
+      modalVideo.classList.remove("hidden");
+      if (modalImg) modalImg.classList.add("hidden");
+      if (modalFallback) modalFallback.classList.add("hidden");
+      modalVideo.currentTime = 0;
+      modalVideo.play().catch(() => {});
+    } else if (bannerSrc && modalImg) {
+      modalImg.src = bannerSrc;
+      modalImg.alt = item.client;
+      modalImg.classList.remove("hidden");
+      if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.classList.add("hidden");
+      }
+      if (modalFallback) modalFallback.classList.add("hidden");
+    } else if (modalFallback) {
+      modalFallback.classList.remove("hidden");
+      if (modalImg) modalImg.classList.add("hidden");
+      if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.classList.add("hidden");
+      }
+    }
+
+    // Animação de entrada
+    backdrop.classList.remove("opacity-0", "pointer-events-none");
+    backdrop.classList.add("opacity-100");
+    backdrop.setAttribute("aria-hidden", "false");
+
+    container.classList.remove("scale-95", "opacity-0");
+    container.classList.add("scale-100", "opacity-100");
+
+    document.body.style.overflow = "hidden";
+
+    if (closeBtn) {
+      closeBtn.focus();
+    }
+  }
+
+  function closeModal() {
+    if (!backdrop || !container) return;
+
+    backdrop.classList.add("opacity-0", "pointer-events-none");
+    backdrop.classList.remove("opacity-100");
+    backdrop.setAttribute("aria-hidden", "true");
+
+    container.classList.add("scale-95", "opacity-0");
+    container.classList.remove("scale-100", "opacity-100");
+
+    if (modalVideo) {
+      modalVideo.pause();
+    }
+
+    document.body.style.overflow = "";
+
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+    }
+  }
+
+  // Event listeners nos cards de cases
+  const cards = document.querySelectorAll<HTMLElement>("[data-case-card]");
+  cards.forEach((card) => {
+    const caseId = card.getAttribute("data-case-card");
+    if (!caseId) return;
+
+    card.addEventListener("click", () => {
+      openModal(caseId, card);
+    });
+
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openModal(caseId, card);
+      }
+    });
+  });
+
+  // Fechar no botão
+  closeBtn?.addEventListener("click", closeModal);
+
+  // Fechar ao clicar no backdrop (fora do container)
+  backdrop?.addEventListener("click", (e) => {
+    if (e.target === backdrop) {
+      closeModal();
+    }
+  });
+
+  // Fechar com tecla Escape
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && backdrop?.getAttribute("aria-hidden") === "false") {
+      closeModal();
+    }
+  });
+</script>

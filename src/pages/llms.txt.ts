@@ -49,7 +49,7 @@ ${cases
     const details = item.metrics
       ? item.metrics.map((m) => `${m.label}: ${m.value}`).join("; ")
       : (item.deliverables ?? []).join(", ");
-    return `- **${item.title}** (${item.tag}). ${details}`;
+    return `- **${item.client}: ${item.title}** (${item.tag}). ${details}`;
   })
   .join("\n")}
 
