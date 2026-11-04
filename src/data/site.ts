@@ -5,11 +5,13 @@
  * entender e recomendar a marca.
  */
 
+export type Locale = "pt" | "en";
+
 export const SITE = {
   url: "https://www.agenciaznt.com.br",
   name: "ZNT",
   legalName: "ZNT Marketing",
-  alternateNames: ["Agência ZNT", "ZNT Marketing", "ZNT Agência"],
+  alternateNames: ["Agência ZNT", "ZNT Marketing", "ZNT Agência", "ZNT Agency"],
   slogan: "Estratégia que constrói narrativa",
   title: "Agência ZNT | Marketing de Conteúdo e Performance em Campo Bom - RS",
   description:
@@ -42,6 +44,29 @@ export const SITE = {
     projects: "+1.200",
   },
 } as const;
+
+export const SITE_EN = {
+  ...SITE,
+  slogan: "Strategy that builds narrative",
+  title: "ZNT Agency | Content & Performance Marketing in Brazil",
+  description:
+    "Marketing agency in Campo Bom, Brazil that helps companies sell more on social media with content strategy, branding, paid media, CRM, and AI automation.",
+  summary:
+    "ZNT is a content and performance marketing agency based in Campo Bom, Rio Grande do Sul, Brazil. It helps companies sell more on social media by combining brand strategy, content production, audiovisual, paid media, CRM, automation, and artificial intelligence.",
+  locale: "en_US",
+  language: "en",
+  ogImageAlt: "ZNT Agency: your brand deserves the next level",
+  stats: {
+    revenueFromPaidMedia: "+R$ 5.2 million",
+    views: "+44.7 million",
+    clients: "+35",
+    projects: "+1,200",
+  },
+} as const;
+
+export function getSite(lang: Locale = "pt") {
+  return lang === "en" ? SITE_EN : SITE;
+}
 
 export const mapsUrl =
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -82,3 +107,40 @@ export const faqs: { question: string; answer: string }[] = [
       "O primeiro passo é agendar um diagnóstico pelo formulário do site. A partir dele, entendemos o momento da sua empresa e indicamos a estratégia mais adequada. Também é possível falar com a gente pelo e-mail contato@agenciaznt.com.br.",
   },
 ];
+
+export const faqsEn: { question: string; answer: string }[] = [
+  {
+    question: "What does ZNT do?",
+    answer:
+      "ZNT is a content and performance marketing agency. We help your company sell more on social media by combining brand strategy, content, audiovisual production, paid media, CRM, automation, and artificial intelligence — always data-driven.",
+  },
+  {
+    question: "Where is ZNT located?",
+    answer:
+      "Our office is located at Rua Cairú, 88, Suite 01, in Downtown Campo Bom, Rio Grande do Sul, Brazil (Vale do Sinos region).",
+  },
+  {
+    question: "What marketing services does ZNT offer?",
+    answer:
+      "Our services are organized into three pillars. Strategy: macro diagnosis, content planning, design, branding, visual identity, audiovisual production, websites, landing pages, and social media management. Performance: sales funnel diagnosis, paid media, CRM & automation, metrics analysis, reporting, and commercial strategy. Innovation: artificial intelligence, software, and web development.",
+  },
+  {
+    question: "What results has ZNT generated for clients?",
+    answer:
+      "We have generated over R$ 5.2 million in paid media revenue, over 44.7 million views, served more than 35 clients, and delivered over 1,200 projects. Highlights include a 9.2x ROAS with 104.8% more delivery orders and a 312% increase in leads for a beachwear and fitness brand.",
+  },
+  {
+    question: "What types of companies does ZNT work with?",
+    answer:
+      "We work with companies that want to grow strategically. We have served brands in fashion and footwear, food and delivery, education, sports, health and wellness, technology, and manufacturing.",
+  },
+  {
+    question: "How do I start working with ZNT?",
+    answer:
+      "The first step is to book a diagnostic session through the form on our website. From there, we understand your company's current stage and recommend the most effective strategy. You can also reach us by email at contato@agenciaznt.com.br.",
+  },
+];
+
+export function getFaqs(lang: Locale = "pt") {
+  return lang === "en" ? faqsEn : faqs;
+}

@@ -1,19 +1,22 @@
 ---
 import logoImage from "../assets/logos/logo-completa-azul-branco-2.webp";
 import { Image } from "astro:assets";
+import type { Locale } from "../data/site";
 
 interface Props {
   class?: string;
   loading?: "eager" | "lazy";
+  lang?: Locale;
 }
 
-const { class: className = "", loading = "eager" } = Astro.props;
+const { class: className = "", loading = "eager", lang = "pt" } = Astro.props;
+const isEn = lang === "en";
 ---
 
 <a
   href="#hero"
   class={`inline-flex items-center group ${className}`}
-  aria-label="ZNT Marketing - Página inicial"
+  aria-label={isEn ? "ZNT Marketing - Home" : "ZNT Marketing - Página inicial"}
 >
   <Image
     src={logoImage}

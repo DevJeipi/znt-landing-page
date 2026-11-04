@@ -1,38 +1,73 @@
 ---
-import { Rocket, Eye, Users, DollarSign } from 'lucide-astro';
+import { Rocket, Eye, Users, DollarSign } from "lucide-astro";
+import type { Locale } from "../data/site";
 
-const stats = [
-  {
-    id: '1',
-    value: '+5,2M',
-    label: 'De receita por mídia paga',
-    icon: DollarSign,
-  },
-  {
-    id: '2',
-    value: '+44,7M',
-    label: 'Visualizações geradas',
-    icon: Eye,
-  },
-  {
-    id: '3',
-    value: '+35',
-    label: 'Clientes atendidos',
-    icon: Users,
-  },
-  {
-    id: '4',
-    value: '+1200',
-    label: 'Projetos entregues',
-    icon: Rocket,
-  },
-];
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
+
+const stats = isEn
+  ? [
+      {
+        id: "1",
+        value: "+5.2M",
+        label: "In paid media revenue",
+        icon: DollarSign,
+      },
+      {
+        id: "2",
+        value: "+44.7M",
+        label: "Views generated",
+        icon: Eye,
+      },
+      {
+        id: "3",
+        value: "+35",
+        label: "Clients served",
+        icon: Users,
+      },
+      {
+        id: "4",
+        value: "+1200",
+        label: "Projects delivered",
+        icon: Rocket,
+      },
+    ]
+  : [
+      {
+        id: "1",
+        value: "+5,2M",
+        label: "De receita por mídia paga",
+        icon: DollarSign,
+      },
+      {
+        id: "2",
+        value: "+44,7M",
+        label: "Visualizações geradas",
+        icon: Eye,
+      },
+      {
+        id: "3",
+        value: "+35",
+        label: "Clientes atendidos",
+        icon: Users,
+      },
+      {
+        id: "4",
+        value: "+1200",
+        label: "Projetos entregues",
+        icon: Rocket,
+      },
+    ];
 ---
 
 <section
   id="metricas"
   class="relative bg-black py-2 lg:py-12 overflow-visible scroll-mt-24"
-  aria-label="Resultados e Métricas"
+  aria-label={isEn ? "Results and Metrics" : "Resultados e Métricas"}
 >
   <!-- Ambient background glow sutil (sem quadriculado) -->
   <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">

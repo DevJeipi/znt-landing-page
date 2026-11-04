@@ -1,12 +1,21 @@
 ---
 import { ArrowUpRight, X } from "lucide-astro";
-import { cases } from "../data/cases";
+import { getCases } from "../data/cases";
+import type { Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
+const cases = getCases(lang);
 ---
 
 <section
   id="cases"
   class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
-  aria-label="Cases de sucesso"
+  aria-label={isEn ? "Success stories" : "Cases de sucesso"}
 >
   <!-- Ambient background glow sutil -->
   <div
@@ -25,14 +34,26 @@ import { cases } from "../data/cases";
       <span
         class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
       >
-        Cases de sucesso
+        {isEn ? "Success stories" : "Cases de sucesso"}
       </span>
       <h2
         class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
       >
-        Os resultados
-        <br />
-        não mentem
+        {
+          isEn ? (
+            <>
+              The results
+              <br />
+              don&apos;t lie
+            </>
+          ) : (
+            <>
+              Os resultados
+              <br />
+              não mentem
+            </>
+          )
+        }
       </h2>
     </div>
 
@@ -45,7 +66,11 @@ import { cases } from "../data/cases";
             tabindex="0"
             role="button"
             aria-haspopup="dialog"
-            aria-label={`Ver case do cliente ${item.client}: ${item.title}`}
+            aria-label={
+              isEn
+                ? `View case study for ${item.client}: ${item.title}`
+                : `Ver case do cliente ${item.client}: ${item.title}`
+            }
             data-case-card={item.id}
           >
             {/* Mídia do case: foto ou vídeo */}
@@ -126,7 +151,10 @@ import { cases } from "../data/cases";
 
               {/* Entregas (cases sem métricas numéricas) */}
               {item.deliverables && (
-                <ul class="mt-auto flex flex-wrap gap-2 pt-5 border-t border-white/10" aria-label="Entregas">
+                <ul
+                  class="mt-auto flex flex-wrap gap-2 pt-5 border-t border-white/10"
+                  aria-label={isEn ? "Deliverables" : "Entregas"}
+                >
                   {item.deliverables.map((deliverable) => (
                     <li class="inline-flex items-center px-3.5 py-1.5 rounded-full font-roc text-xs sm:text-sm text-white bg-white/[0.04] border border-white/15">
                       {deliverable}
@@ -158,7 +186,7 @@ import { cases } from "../data/cases";
       <button
         type="button"
         id="case-modal-close"
-        aria-label="Fechar modal"
+        aria-label={isEn ? "Close modal" : "Fechar modal"}
         class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center cursor-pointer"
       >
         <X class="w-4 h-4" aria-hidden="true" />

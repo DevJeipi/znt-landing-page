@@ -1,6 +1,7 @@
 /**
  * Cases de sucesso: usados na seção Cases e no /llms.txt.
  */
+import type { Locale } from "./site";
 
 // Capas dos cases (cards)
 import capa15 from "../assets/cases/CAPA_15.avif";
@@ -136,3 +137,95 @@ export const cases: CaseItem[] = [
     ],
   },
 ];
+
+export const casesEn: CaseItem[] = [
+  {
+    id: "moda-praia",
+    client: "Shallow",
+    tag: "Audiovisual + Paid Media",
+    title: "Brand repositioning in the beachwear and fitness segment",
+    mediaType: "image",
+    mediaSrc: capaShallow.src,
+    bannerSrc: projetoShallow.src,
+    metrics: [
+      { value: "+312%", label: "Leads" },
+      { value: "-27%", label: "CAC" },
+      { value: "+5.8x", label: "ROAS" },
+    ],
+  },
+  {
+    id: "massoterapeuta",
+    client: "Pâmela",
+    tag: "Branding + Visual Identity",
+    title:
+      "Brand positioning, visual identity, tone of voice, and service ecosystem creation for a massage therapist",
+    mediaType: "image",
+    mediaSrc: capaPamela.src,
+    bannerSrc: projetoPamela.src,
+    deliverables: ["Visual Identity", "Branding", "Product Design"],
+  },
+  {
+    id: "clube-esportivo",
+    client: "Clube 15",
+    tag: "Social Media Management",
+    title:
+      "Redefining and bringing purpose to a sports club through strategic social media communication",
+    mediaType: "image",
+    mediaSrc: capa15.src,
+    bannerSrc: projeto15.src,
+    metrics: [
+      { value: "+182%", label: "Organic views" },
+      { value: "+548%", label: "Interactions" },
+      { value: "+10,893", label: "Profile visits/mo" },
+    ],
+  },
+  {
+    id: "delivery",
+    client: "Flor de Ló",
+    tag: "Audiovisual + Paid Media",
+    title:
+      "104.8% growth in monthly delivery orders through organic content and paid media",
+    mediaType: "image",
+    mediaSrc: capaFlorDeLo.src,
+    bannerSrc: projetoFlorDeLo.src,
+    metrics: [
+      { value: "-11.22%", label: "CAC" },
+      { value: "+104.8%", label: "Orders" },
+      { value: "9.2x", label: "ROAS" },
+    ],
+  },
+  {
+    id: "estilistas",
+    client: "Fluence",
+    tag: "Social Media Management",
+    title:
+      "After identifying fashion designers as the target audience, we shifted communication toward fashion and style, turning content into an acquisition channel",
+    mediaType: "image",
+    mediaSrc: capaFluence.src,
+    bannerSrc: projetoFluence.src,
+    metrics: [
+      { value: "+76%", label: "Closed orders" },
+      { value: "+142%", label: "Organic reach" },
+      { value: "+62%", label: "Qualified leads" },
+    ],
+  },
+  {
+    id: "escola",
+    client: "Santa Teresinha",
+    tag: "Audiovisual",
+    title:
+      "Acquisition strategy to turn the enrollment campaign into a new student acquisition channel for the school",
+    mediaType: "image",
+    mediaSrc: capaSanta.src,
+    bannerSrc: projetoSanta.src,
+    metrics: [
+      { value: "+33%", label: "New enrollments" },
+      { value: "+127%", label: "Interested leads" },
+      { value: "-61%", label: "Cost per lead" },
+    ],
+  },
+];
+
+export function getCases(lang: Locale = "pt"): CaseItem[] {
+  return lang === "en" ? casesEn : cases;
+}

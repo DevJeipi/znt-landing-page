@@ -2,6 +2,14 @@
 /**
  * Seção de Clientes Já Atendidos: grade de logos e wordmarks.
  */
+import type { Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
 
 import logo15 from "../assets/logos/logo-15.svg";
 import logoCriamigos from "../assets/logos/logo-criamigos.webp";
@@ -101,7 +109,7 @@ for (let i = 0; i < max; i++) {
 <section
   id="clientes"
   class="relative bg-black overflow-hidden py-12 lg:py-16 scroll-mt-24"
-  aria-label="Clientes já atendidos"
+  aria-label={isEn ? "Clients we've worked with" : "Clientes já atendidos"}
 >
   <!-- Background glow azulado e textura quadriculada -->
   <div
@@ -124,10 +132,12 @@ for (let i = 0; i < max; i++) {
       <h2
         class="font-roc font-normal text-2xl sm:text-3xl lg:text-[2.5rem] uppercase tracking-[0.06em] leading-tight text-white"
       >
-        Clientes já atendidos
+        {isEn ? "Clients we've worked with" : "Clientes já atendidos"}
       </h2>
       <p class="mt-2 font-sans text-xs sm:text-sm md:text-base text-white/80">
-        Marcas que escolheram crescer com estratégia
+        {isEn
+          ? "Brands that chose to grow with strategy"
+          : "Marcas que escolheram crescer com estratégia"}
       </p>
     </div>
 

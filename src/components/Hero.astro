@@ -1,12 +1,20 @@
 ---
 import heroImage from "../assets/image-right-1.png";
 import { Image } from "astro:assets";
+import type { Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
 ---
 
 <section
   id="hero"
   class="relative flex flex-col lg:flex-row items-center overflow-hidden bg-black scroll-mt-24"
-  aria-label="Seção principal"
+  aria-label={isEn ? "Hero section" : "Seção principal"}
 >
   <!-- Ambient background: Leves quadriculados de textura com fade no rodapé e glow sutil -->
   <div class="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
@@ -34,7 +42,11 @@ import { Image } from "astro:assets";
     >
       <Image
         src={heroImage}
-        alt="Estrela ZNT emanando luz, representação visual da estratégia de marketing"
+        alt={
+          isEn
+            ? "ZNT star emanating light, visual representation of marketing strategy"
+            : "Estrela ZNT emanando luz, representação visual da estratégia de marketing"
+        }
         class="w-full h-auto object-contain rotate-90 lg:rotate-0"
         widths={[360, 480, 720, 1024, 1440]}
         sizes="(max-width: 640px) 260px, (max-width: 1024px) 310px, 900px"
@@ -58,28 +70,45 @@ import { Image } from "astro:assets";
       <span
         class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 animate-fade-in"
       >
-        MARKETING QUE FUNCIONA DE VERDADE
+        {isEn ? "MARKETING THAT ACTUALLY WORKS" : "MARKETING QUE FUNCIONA DE VERDADE"}
       </span>
 
       <!-- Título Principal: Roc Grotesk -->
       <h1
         class="font-roc text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] xl:text-[3.5rem] uppercase leading-[1.05] tracking-tight text-white mb-4"
       >
-        <span class="block">SUA MARCA</span>
+        <span class="block">{isEn ? "YOUR BRAND" : "SUA MARCA"}</span>
         <span class="block"
-          ><span>MERECE O</span>
+          ><span>{isEn ? "DESERVES THE" : "MERECE O"}</span>
           <br />
-          <span class="text-primary">PRÓXIMO NÍVEL</span></span
+          <span class="text-primary">{isEn ? "NEXT LEVEL" : "PRÓXIMO NÍVEL"}</span></span
         >
       </h1>
 
       <!-- Parágrafo: Inter com destaque nas palavras-chave -->
-      <p
-        class="font-sans text-base sm:text-lg md:text-[1.15rem] text-white/85 leading-relaxed max-w-xl mb-7"
-      >
-        A gente faz a sua empresa <strong class="font-semibold text-white">vender mais</strong> nas redes sociais através de{" "}
-        <strong class="font-semibold text-primary">estratégias de marketing com conteúdo</strong>.
-      </p>
+      {
+        isEn ? (
+          <p class="font-sans text-base sm:text-lg md:text-[1.15rem] text-white/85 leading-relaxed max-w-xl mb-7">
+            We help your company{" "}
+            <strong class="font-semibold text-white">sell more</strong> on social
+            media through{" "}
+            <strong class="font-semibold text-primary">
+              content-driven marketing strategies
+            </strong>
+            .
+          </p>
+        ) : (
+          <p class="font-sans text-base sm:text-lg md:text-[1.15rem] text-white/85 leading-relaxed max-w-xl mb-7">
+            A gente faz a sua empresa{" "}
+            <strong class="font-semibold text-white">vender mais</strong> nas redes
+            sociais através de{" "}
+            <strong class="font-semibold text-primary">
+              estratégias de marketing com conteúdo
+            </strong>
+            .
+          </p>
+        )
+      }
 
       <!-- Botões lado a lado -->
       <div
@@ -93,7 +122,7 @@ import { Image } from "astro:assets";
           id="btn-agendar"
           class="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-primary border border-primary shadow-glow-blue hover:bg-[#5cbbff] hover:border-[#5cbbff] transition-all duration-300"
         >
-          Agendar diagnóstico
+          {isEn ? "Book a diagnostic" : "Agendar diagnóstico"}
           <svg
             class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
             viewBox="0 0 16 16"
@@ -115,7 +144,7 @@ import { Image } from "astro:assets";
           id="btn-cases"
           class="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-transparent border border-white/30 hover:border-white hover:bg-white/10 transition-all duration-300"
         >
-          Ver cases
+          {isEn ? "View cases" : "Ver cases"}
           <svg
             class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
             viewBox="0 0 16 16"

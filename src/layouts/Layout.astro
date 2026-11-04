@@ -1,14 +1,20 @@
 ---
 import "../styles/global.css";
-import { SITE, faqs, mapsUrl } from "../data/site";
-import { pillars } from "../data/services";
+import { getSite, getFaqs, mapsUrl, type Locale } from "../data/site";
+import { getPillars } from "../data/services";
 
 interface Props {
+  lang?: Locale;
   title?: string;
   description?: string;
   image?: string;
   imageAlt?: string;
 }
+
+const { lang = "pt" } = Astro.props;
+const SITE = getSite(lang);
+const faqs = getFaqs(lang);
+const pillars = getPillars(lang);
 
 const {
   title = SITE.title,
@@ -19,6 +25,8 @@ const {
 
 const siteUrl = Astro.site ?? new URL(SITE.url);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const ptUrl = new URL("/", siteUrl).href;
+const enUrl = new URL("/en/", siteUrl).href;
 const imageUrl = new URL(image, siteUrl).href;
 const logoUrl = new URL("/favicon/android-chrome-512x512.png", siteUrl).href;
 
@@ -60,7 +68,7 @@ const structuredData = {
         contactType: "sales",
         email: SITE.email,
         url: SITE.ctaUrl,
-        availableLanguage: "Portuguese",
+        availableLanguage: ["Portuguese", "English"],
       },
       sameAs: Object.values(SITE.social),
       knowsAbout: [
@@ -76,7 +84,7 @@ const structuredData = {
       ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Serviços de marketing da ZNT",
+        name: lang === "en" ? "ZNT Marketing Services" : "Serviços de marketing da ZNT",
         itemListElement: pillars.map((pillar) => ({
           "@type": "OfferCatalog",
           name: pillar.name,
@@ -125,7 +133,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="pt-BR" class="dark scroll-smooth">
+<html lang={SITE.language} class="dark scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -140,6 +148,9 @@ const structuredData = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={ptUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={ptUrl} />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -156,6 +167,7 @@ const structuredData = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:locale:alternate" content={lang === "en" ? "pt_BR" : "en_US"} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
@@ -211,5 +223,14 @@ const structuredData = {
     class="bg-black text-white antialiased selection:bg-[#25a4ff] selection:text-white font-sans"
   >
     <slot />
+    <script is:inline>
+      try {
+        const savedScroll = sessionStorage.getItem("znt-scroll");
+        if (savedScroll !== null) {
+          sessionStorage.removeItem("znt-scroll");
+          window.scrollTo({ top: Number(savedScroll), behavior: "instant" });
+        }
+      } catch {}
+    </script>
   </body>
 </html>

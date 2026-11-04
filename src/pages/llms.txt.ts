@@ -59,7 +59,8 @@ ${faqs.map((faq) => `### ${faq.question}\n\n${faq.answer}`).join("\n\n")}
 
 ## Páginas
 
-- [Página inicial](${SITE.url}/): apresentação, serviços, time, cases e contato
+- [Página inicial (PT-BR)](${SITE.url}/): apresentação, serviços, time, cases e contato
+- [Home page (EN)](${SITE.url}/en/): English version of the site
 `;
 
   return new Response(body, {

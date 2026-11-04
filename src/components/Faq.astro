@@ -5,7 +5,15 @@
  * ajudam a ZNT a aparecer em respostas do Google e de IAs generativas (AEO/GEO).
  */
 import { Plus } from "lucide-astro";
-import { faqs } from "../data/site";
+import { getFaqs, type Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
+const faqs = getFaqs(lang);
 ---
 
 <section
@@ -32,13 +40,17 @@ import { faqs } from "../data/site";
       <span
         class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
       >
-        Perguntas frequentes
+        {isEn ? "Frequently asked questions" : "Perguntas frequentes"}
       </span>
       <h2
         id="faq-title"
         class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
       >
-        Tudo o que você precisa saber sobre a ZNT
+        {
+          isEn
+            ? "Everything you need to know about ZNT"
+            : "Tudo o que você precisa saber sobre a ZNT"
+        }
       </h2>
     </div>
 

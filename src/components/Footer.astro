@@ -1,41 +1,61 @@
 ---
 import Logo from "./Logo.astro";
 import { Instagram, Linkedin, Mail, ArrowUp, ArrowRight } from "lucide-astro";
-import { SITE } from "../data/site";
+import { SITE, type Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
 
 const year = new Date().getFullYear();
 
-const nav = [
-  { label: "Início", href: "#hero" },
-  { label: "Serviços", href: "#constelacao" },
-  { label: "Cases", href: "#cases" },
-  { label: "Perguntas frequentes", href: "#perguntas-frequentes" },
-];
+const nav = isEn
+  ? [
+      { label: "Home", href: "#hero" },
+      { label: "Services", href: "#constelacao" },
+      { label: "Cases", href: "#cases" },
+      { label: "FAQ", href: "#perguntas-frequentes" },
+    ]
+  : [
+      { label: "Início", href: "#hero" },
+      { label: "Serviços", href: "#constelacao" },
+      { label: "Cases", href: "#cases" },
+      { label: "Perguntas frequentes", href: "#perguntas-frequentes" },
+    ];
 
-const pillars = [
-  { label: "Estratégia", href: "#pilar-estrategia" },
-  { label: "Performance", href: "#pilar-performance" },
-  { label: "Inovação", href: "#pilar-inovacao" },
-];
+const pillars = isEn
+  ? [
+      { label: "Strategy", href: "#pilar-estrategia" },
+      { label: "Performance", href: "#pilar-performance" },
+      { label: "Innovation", href: "#pilar-inovacao" },
+    ]
+  : [
+      { label: "Estratégia", href: "#pilar-estrategia" },
+      { label: "Performance", href: "#pilar-performance" },
+      { label: "Inovação", href: "#pilar-inovacao" },
+    ];
 
 const EMAIL = "contato@agenciaznt.com.br";
 
 const CTA_URL = "https://form.typeform.com/to/t6XieXmB";
 const social = [
   {
-    label: "Instagram da ZNT",
+    label: isEn ? "ZNT on Instagram" : "Instagram da ZNT",
     href: "https://www.instagram.com/zntagencia",
     icon: Instagram,
     external: true,
   },
   {
-    label: "LinkedIn da ZNT",
+    label: isEn ? "ZNT on LinkedIn" : "LinkedIn da ZNT",
     href: "https://www.linkedin.com/company/agencia-znt",
     icon: Linkedin,
     external: true,
   },
   {
-    label: "E-mail da ZNT",
+    label: isEn ? "ZNT Email" : "E-mail da ZNT",
     href: "mailto:contato@agenciaznt.com.br",
     icon: Mail,
     external: false,
@@ -46,7 +66,7 @@ const social = [
 <footer
   id="contato"
   class="relative bg-black overflow-hidden pt-12 lg:pt-20 pb-8 scroll-mt-24 border-t border-white/10"
-  aria-label="Rodapé e contato"
+  aria-label={isEn ? "Footer and contact" : "Rodapé e contato"}
 >
   <!-- Glow -->
   <div
@@ -66,13 +86,20 @@ const social = [
         <h2
           class="font-roc font-medium tracking-tight leading-[1.05] text-white text-[clamp(2rem,5vw,3.75rem)]"
         >
-          Pronto pra alcançar o nível mais alto da sua marca?
+          {
+            isEn
+              ? "Ready to take your brand to the highest level?"
+              : "Pronto pra alcançar o nível mais alto da sua marca?"
+          }
         </h2>
         <p
           class="mt-5 font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-xl"
         >
-          Estratégia que constrói narrativa. Branding, conteúdo, tráfego e
-          tecnologia pra marcas que querem crescer de verdade.
+          {
+            isEn
+              ? "Strategy that builds narrative. Branding, content, paid media, and technology for brands that want real growth."
+              : "Estratégia que constrói narrativa. Branding, conteúdo, tráfego e tecnologia pra marcas que querem crescer de verdade."
+          }
         </p>
       </div>
       <a
@@ -81,7 +108,7 @@ const social = [
         rel="noopener noreferrer"
         class="group inline-flex shrink-0 items-center gap-2 px-7 py-3.5 rounded-full font-[family-name:var(--font-roc)] font-medium text-sm text-white bg-primary border border-primary shadow-glow-blue hover:bg-[#5cbbff] hover:border-[#5cbbff] transition-all duration-300"
       >
-        Agendar diagnóstico
+        {isEn ? "Book a diagnostic" : "Agendar diagnóstico"}
         <ArrowRight
           class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
           aria-hidden="true"
@@ -94,14 +121,14 @@ const social = [
       class="grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 lg:gap-12 py-10"
     >
       <div class="col-span-2 lg:col-span-1">
-        <Logo loading="lazy" />
+        <Logo loading="lazy" lang={lang} />
         <p
           class="mt-4 font-sans text-sm text-white/55 leading-relaxed max-w-xs"
         >
-          Estratégia que constrói narrativa.
+          {isEn ? "Strategy that builds narrative." : "Estratégia que constrói narrativa."}
         </p>
         <p class="mt-5 font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-2">
-          Contato
+          {isEn ? "Contact" : "Contato"}
         </p>
         <address class="not-italic flex flex-col gap-1.5">
           <a
@@ -141,11 +168,11 @@ const social = [
         </ul>
       </div>
 
-      <nav aria-label="Navegação do rodapé">
+      <nav aria-label={isEn ? "Footer navigation" : "Navegação do rodapé"}>
         <p
           class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
         >
-          Navegação
+          {isEn ? "Navigation" : "Navegação"}
         </p>
         <ul class="flex flex-col gap-2.5">
           {
@@ -163,11 +190,11 @@ const social = [
         </ul>
       </nav>
 
-      <nav aria-label="Serviços no rodapé">
+      <nav aria-label={isEn ? "Services in footer" : "Serviços no rodapé"}>
         <p
           class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
         >
-          Ecossistema
+          {isEn ? "Ecosystem" : "Ecossistema"}
         </p>
         <ul class="flex flex-col gap-2.5">
           {
@@ -189,10 +216,14 @@ const social = [
         <p
           class="font-roc text-xs tracking-[0.2em] uppercase text-white/35 mb-4"
         >
-          Fale com a gente
+          {isEn ? "Get in touch" : "Fale com a gente"}
         </p>
         <p class="font-sans text-sm text-white/65 leading-relaxed mb-4">
-          Resposta rápida no horário comercial. Sem robô, só atendimento humano.
+          {
+            isEn
+              ? "Fast response during business hours. No bots, just real human support."
+              : "Resposta rápida no horário comercial. Sem robô, só atendimento humano."
+          }
         </p>
         <a
           href="#hero"
@@ -202,7 +233,7 @@ const social = [
             class="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
-          Voltar ao topo
+          {isEn ? "Back to top" : "Voltar ao topo"}
         </a>
       </div>
     </div>
@@ -212,10 +243,14 @@ const social = [
       class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3"
     >
       <p class="font-sans text-xs text-white/40">
-        © {year} ZNT Marketing. Todos os direitos reservados.
+        {
+          isEn
+            ? `© ${year} ZNT Marketing. All rights reserved.`
+            : `© ${year} ZNT Marketing. Todos os direitos reservados.`
+        }
       </p>
       <p class="font-roc text-xs tracking-[0.2em] uppercase text-white/25">
-        Estratégia que constrói narrativa
+        {isEn ? "Strategy that builds narrative" : "Estratégia que constrói narrativa"}
       </p>
     </div>
   </div>

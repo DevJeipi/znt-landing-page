@@ -2,6 +2,7 @@
  * Pilares de serviço da ZNT: usados na seção Constelação e no JSON-LD
  * (catálogo de serviços), para buscadores e IAs entenderem o que a agência faz.
  */
+import type { Locale } from "./site";
 
 export interface Pillar {
   id: string;
@@ -66,3 +67,62 @@ export const pillars: Pillar[] = [
     ],
   },
 ];
+
+export const pillarsEn: Pillar[] = [
+  {
+    id: "estrategia",
+    name: "Strategy",
+    tagline: "Position your brand to be chosen.",
+    description:
+      "We build your company's positioning and communication to create value, attract clients, and strengthen your market presence.",
+    color: "#7ec9ff",
+    items: [
+      "Macro Diagnosis",
+      "Content Planning",
+      "Content Production",
+      "Design",
+      "Websites & Landing Pages",
+      "Branding",
+      "Visual Identity",
+      "Audiovisual",
+      "Social Media Management",
+    ],
+  },
+  {
+    id: "performance",
+    name: "Performance",
+    tagline: "Increase your revenue.",
+    description:
+      "We attract opportunities, optimize your investments, and connect marketing to sales to generate more revenue for your company.",
+    color: "#e3e36d",
+    items: [
+      "Sales Funnel Diagnosis",
+      "Metrics Analysis",
+      "CRM & Automation",
+      "Paid Media / Ads",
+      "Performance Reports",
+      "Commercial Strategy",
+      "Lead Generation",
+      "Sales Management",
+    ],
+  },
+  {
+    id: "inovacao",
+    name: "Innovation",
+    tagline: "Boost your operational efficiency with technology.",
+    description:
+      "We apply artificial intelligence, automation, and technology to reduce manual processes, gain efficiency, and prepare your business for the next level.",
+    color: "#68eaa9",
+    items: [
+      "Technology",
+      "Custom Solutions",
+      "Artificial Intelligence",
+      "Software",
+      "Web Development",
+    ],
+  },
+];
+
+export function getPillars(lang: Locale = "pt"): Pillar[] {
+  return lang === "en" ? pillarsEn : pillars;
+}

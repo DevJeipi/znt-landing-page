@@ -13,22 +13,42 @@ import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import officePhoto1 from "../assets/team/escritorio.webp";
 import officePhoto2 from "../assets/team/escritorio-2.webp";
-import { SITE, mapsUrl } from "../data/site";
+import { SITE, mapsUrl, type Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
 
 const teamImage: ImageMetadata | null = null;
 
-const officePhotos: { image: ImageMetadata; alt: string; caption: string }[] = [
-  {
-    image: officePhoto1,
-    alt: "Espaço de trabalho da equipe no escritório da ZNT Marketing em Campo Bom",
-    caption: "Nosso escritório",
-  },
-  {
-    image: officePhoto2,
-    alt: "Sala de reuniões do escritório da ZNT Marketing em Campo Bom",
-    caption: "Sala de reuniões",
-  },
-];
+const officePhotos: { image: ImageMetadata; alt: string; caption: string }[] = isEn
+  ? [
+      {
+        image: officePhoto1,
+        alt: "Team workspace at ZNT Marketing office in Campo Bom",
+        caption: "Our office",
+      },
+      {
+        image: officePhoto2,
+        alt: "Meeting room at ZNT Marketing office in Campo Bom",
+        caption: "Meeting room",
+      },
+    ]
+  : [
+      {
+        image: officePhoto1,
+        alt: "Espaço de trabalho da equipe no escritório da ZNT Marketing em Campo Bom",
+        caption: "Nosso escritório",
+      },
+      {
+        image: officePhoto2,
+        alt: "Sala de reuniões do escritório da ZNT Marketing em Campo Bom",
+        caption: "Sala de reuniões",
+      },
+    ];
 
 const address = {
   street: SITE.address.streetAddress,
@@ -39,7 +59,7 @@ const address = {
 <section
   id="time"
   class="relative bg-black overflow-hidden py-12 lg:py-20 scroll-mt-24"
-  aria-label="Nosso time"
+  aria-label={isEn ? "Our team" : "Nosso time"}
 >
   <!-- Ambient background glow sutil -->
   <div
@@ -60,12 +80,12 @@ const address = {
       <span
         class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
       >
-        Nosso time
+        {isEn ? "Our team" : "Nosso time"}
       </span>
       <h2
         class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
       >
-        Quem faz a ZNT acontecer
+        {isEn ? "The people behind ZNT" : "Quem faz a ZNT acontecer"}
       </h2>
     </div>
 
@@ -80,7 +100,7 @@ const address = {
           teamImage ? (
             <Image
               src={teamImage}
-              alt="Time da ZNT Marketing"
+              alt={isEn ? "ZNT Marketing Team" : "Time da ZNT Marketing"}
               class="absolute inset-0 w-full h-full object-cover"
               widths={[640, 960, 1440]}
               sizes="(max-width: 1024px) 100vw, 60vw"
@@ -106,7 +126,7 @@ const address = {
         <figcaption
           class="absolute left-6 bottom-5 font-roc text-xs tracking-[0.15em] uppercase text-white/70"
         >
-          Time ZNT
+          {isEn ? "ZNT Team" : "Time ZNT"}
         </figcaption>
       </figure>
 
@@ -162,7 +182,7 @@ const address = {
             class="w-5 h-5 shrink-0 text-white/30 transition-all duration-300 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
-          <span class="sr-only">(abre no Google Maps)</span>
+          <span class="sr-only">{isEn ? "(opens in Google Maps)" : "(abre no Google Maps)"}</span>
         </a>
       </div>
     </div>

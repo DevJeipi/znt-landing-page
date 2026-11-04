@@ -1,14 +1,24 @@
 ---
 import { Asterisk, ChevronDown } from "lucide-astro";
-import { pillars } from "../data/services";
+import { getPillars } from "../data/services";
+import type { Locale } from "../data/site";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "pt" } = Astro.props;
+const isEn = lang === "en";
+const pillars = getPillars(lang);
 
 const pad = (n: number) => String(n).padStart(2, "0");
+const deliverablesNoun = isEn ? "deliverables" : "entregáveis";
 ---
 
 <section
   id="constelacao"
   class="relative bg-black py-12 lg:py-20 scroll-mt-24"
-  aria-label="Constelação de serviços ZNT"
+  aria-label={isEn ? "ZNT services constellation" : "Constelação de serviços ZNT"}
 >
   <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
     <!-- Header -->
@@ -17,23 +27,23 @@ const pad = (n: number) => String(n).padStart(2, "0");
         <span
           class="font-roc text-primary text-xs sm:text-sm tracking-[0.15em] uppercase mb-3 block"
         >
-          Constelação ZNT
+          {isEn ? "ZNT Constellation" : "Constelação ZNT"}
         </span>
         <h2
           class="font-roc text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight text-white"
         >
-          Três pilares dos nossos serviços
+          {isEn ? "Three pillars of our services" : "Três pilares dos nossos serviços"}
         </h2>
       </div>
       <p class="font-sans text-xs sm:text-sm tracking-[0.15em] uppercase text-white/35">
-        Escolha um pilar e explore
+        {isEn ? "Choose a pillar and explore" : "Escolha um pilar e explore"}
       </p>
     </div>
 
     <div class="lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
       <!-- Índice fixo (desktop): acende conforme o scroll -->
       <div class="hidden lg:block">
-        <nav class="sticky top-32 border-b border-white/10" aria-label="Pilares">
+        <nav class="sticky top-32 border-b border-white/10" aria-label={isEn ? "Pillars" : "Pilares"}>
           {
             pillars.map((pillar, index) => (
               <a
@@ -53,7 +63,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                     {pillar.name}
                   </span>
                   <span class="mt-2 block font-sans text-sm text-white/40">
-                    {pad(pillar.items.length)} entregáveis
+                    {pad(pillar.items.length)} {deliverablesNoun}
                   </span>
                 </span>
                 <span class="font-roc text-sm text-white/25">
@@ -68,102 +78,108 @@ const pad = (n: number) => String(n).padStart(2, "0");
       <!-- Painéis: um por pilar (entregáveis recolhidos no mobile, sempre abertos no desktop) -->
       <div class="flex flex-col gap-5 lg:gap-0">
         {
-          pillars.map((pillar, index) => (
-            <article
-              id={`pilar-${pillar.id}`}
-              data-pillar-panel={pillar.id}
-              data-active={index === 0 ? "true" : "false"}
-              data-expanded="false"
-              class="pillar-panel scroll-mt-28 lg:min-h-[70vh] lg:flex lg:items-center lg:py-8"
-              style={`--pillar: ${pillar.color};`}
-              aria-labelledby={`pilar-${pillar.id}-title`}
-            >
-              <div class="pillar-card relative w-full overflow-hidden rounded-3xl p-7 sm:p-10 bg-[#060b14]/60 backdrop-blur-xl border cursor-pointer lg:cursor-default">
-                {/* Glow na cor do pilar */}
-                <div
-                  class="pillar-glow absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[90px] pointer-events-none"
-                  style={`background: ${pillar.color};`}
-                  aria-hidden="true"
-                />
+          pillars.map((pillar, index) => {
+            const countStr = pad(pillar.items.length);
+            const showText = isEn ? `View ${countStr} deliverables` : `Ver ${countStr} entregáveis`;
+            const hideText = isEn ? "Hide deliverables" : "Ocultar entregáveis";
+            return (
+              <article
+                id={`pilar-${pillar.id}`}
+                data-pillar-panel={pillar.id}
+                data-active={index === 0 ? "true" : "false"}
+                data-expanded="false"
+                class="pillar-panel scroll-mt-28 lg:min-h-[70vh] lg:flex lg:items-center lg:py-8"
+                style={`--pillar: ${pillar.color};`}
+                aria-labelledby={`pilar-${pillar.id}-title`}
+              >
+                <div class="pillar-card relative w-full overflow-hidden rounded-3xl p-7 sm:p-10 bg-[#060b14]/60 backdrop-blur-xl border cursor-pointer lg:cursor-default">
+                  {/* Glow na cor do pilar */}
+                  <div
+                    class="pillar-glow absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[90px] pointer-events-none"
+                    style={`background: ${pillar.color};`}
+                    aria-hidden="true"
+                  />
 
-                <div class="relative z-10">
-                  <div class="flex items-center gap-3 mb-6">
-                    <Asterisk
-                      class="pillar-star w-7 h-7 shrink-0 transition-all duration-500"
-                      style={`color: ${pillar.color};`}
-                      aria-hidden="true"
-                    />
-                    <span
-                      class="font-roc text-sm tracking-[0.15em] uppercase"
-                      style={`color: ${pillar.color};`}
-                    >
-                      {pillar.name}
-                    </span>
-                    <span class="ml-auto font-sans text-xs sm:text-sm text-white/40">
-                      {pad(pillar.items.length)} entregáveis
-                    </span>
-                  </div>
-
-                  <h3
-                    id={`pilar-${pillar.id}-title`}
-                    class="font-roc text-2xl sm:text-3xl lg:text-[2.25rem] leading-[1.1] tracking-tight text-white mb-4"
-                  >
-                    {pillar.tagline}
-                  </h3>
-                  <p class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl mb-5 lg:mb-7">
-                    {pillar.description}
-                  </p>
-
-                  {/* Botão de expandir/recolher entregáveis (apenas mobile) */}
-                  <button
-                    type="button"
-                    data-pillar-toggle={pillar.id}
-                    aria-expanded="false"
-                    aria-controls={`pilar-${pillar.id}-deliverables`}
-                    class="pillar-toggle lg:hidden flex w-full items-center justify-between gap-3 pt-4 border-t border-white/10 font-roc text-sm text-white/80 transition-colors duration-300 hover:text-white cursor-pointer"
-                  >
-                    <span class="flex items-center gap-2.5">
-                      <span
-                        class="w-1.5 h-1.5 rounded-full transition-transform duration-300"
-                        style={`background-color: ${pillar.color};`}
+                  <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-6">
+                      <Asterisk
+                        class="pillar-star w-7 h-7 shrink-0 transition-all duration-500"
+                        style={`color: ${pillar.color};`}
                         aria-hidden="true"
                       />
                       <span
-                        data-toggle-label
-                        data-count={pad(pillar.items.length)}
+                        class="font-roc text-sm tracking-[0.15em] uppercase"
+                        style={`color: ${pillar.color};`}
                       >
-                        Ver {pad(pillar.items.length)} entregáveis
+                        {pillar.name}
                       </span>
-                    </span>
-                    <span
-                      class="pillar-toggle-icon inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/[0.05] border border-white/15 transition-all duration-300"
-                      aria-hidden="true"
-                    >
-                      <ChevronDown class="w-4 h-4 transition-transform duration-300" />
-                    </span>
-                  </button>
+                      <span class="ml-auto font-sans text-xs sm:text-sm text-white/40">
+                        {countStr} {deliverablesNoun}
+                      </span>
+                    </div>
 
-                  <div
-                    id={`pilar-${pillar.id}-deliverables`}
-                    class="pillar-deliverables"
-                  >
-                    <div class="overflow-hidden">
-                      <ul class="flex flex-wrap gap-2.5 pt-5 lg:pt-0">
-                        {pillar.items.map((item, i) => (
-                          <li
-                            class="pillar-chip inline-flex items-center px-5 py-2.5 rounded-full font-roc text-sm text-white bg-white/[0.04] border border-white/15 transition-all duration-300 hover:bg-white/10 hover:border-[var(--pillar)] hover:shadow-[0_0_14px_-4px_var(--pillar)]"
-                            style={`--i: ${i};`}
-                          >
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
+                    <h3
+                      id={`pilar-${pillar.id}-title`}
+                      class="font-roc text-2xl sm:text-3xl lg:text-[2.25rem] leading-[1.1] tracking-tight text-white mb-4"
+                    >
+                      {pillar.tagline}
+                    </h3>
+                    <p class="font-sans text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl mb-5 lg:mb-7">
+                      {pillar.description}
+                    </p>
+
+                    {/* Botão de expandir/recolher entregáveis (apenas mobile) */}
+                    <button
+                      type="button"
+                      data-pillar-toggle={pillar.id}
+                      aria-expanded="false"
+                      aria-controls={`pilar-${pillar.id}-deliverables`}
+                      class="pillar-toggle lg:hidden flex w-full items-center justify-between gap-3 pt-4 border-t border-white/10 font-roc text-sm text-white/80 transition-colors duration-300 hover:text-white cursor-pointer"
+                    >
+                      <span class="flex items-center gap-2.5">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full transition-transform duration-300"
+                          style={`background-color: ${pillar.color};`}
+                          aria-hidden="true"
+                        />
+                        <span
+                          data-toggle-label
+                          data-show-text={showText}
+                          data-hide-text={hideText}
+                        >
+                          {showText}
+                        </span>
+                      </span>
+                      <span
+                        class="pillar-toggle-icon inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/[0.05] border border-white/15 transition-all duration-300"
+                        aria-hidden="true"
+                      >
+                        <ChevronDown class="w-4 h-4 transition-transform duration-300" />
+                      </span>
+                    </button>
+
+                    <div
+                      id={`pilar-${pillar.id}-deliverables`}
+                      class="pillar-deliverables"
+                    >
+                      <div class="overflow-hidden">
+                        <ul class="flex flex-wrap gap-2.5 pt-5 lg:pt-0">
+                          {pillar.items.map((item, i) => (
+                            <li
+                              class="pillar-chip inline-flex items-center px-5 py-2.5 rounded-full font-roc text-sm text-white bg-white/[0.04] border border-white/15 transition-all duration-300 hover:bg-white/10 hover:border-[var(--pillar)] hover:shadow-[0_0_14px_-4px_var(--pillar)]"
+                              style={`--i: ${i};`}
+                            >
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))
+              </article>
+            );
+          })
         }
       </div>
     </div>
@@ -202,10 +218,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
       toggleBtn.setAttribute("aria-expanded", String(nextState));
     }
     if (labelEl) {
-      const count = labelEl.dataset.count ?? "";
       labelEl.textContent = nextState
-        ? "Ocultar entregáveis"
-        : `Ver ${count} entregáveis`;
+        ? (labelEl.dataset.hideText ?? "")
+        : (labelEl.dataset.showText ?? "");
     }
 
     if (nextState && panel.dataset.pillarPanel) {
