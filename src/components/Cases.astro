@@ -180,20 +180,28 @@ const cases = getCases(lang);
   >
     <div
       id="case-modal-container"
-      class="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#060b14] shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_50px_rgba(37,164,255,0.15)] scale-95 opacity-0 transition-all duration-300"
+      class="relative w-full max-w-3xl scale-95 opacity-0 transition-all duration-300"
     >
-      <!-- Botão Fechar -->
-      <button
-        type="button"
-        id="case-modal-close"
-        aria-label={isEn ? "Close modal" : "Fechar modal"}
-        class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center cursor-pointer"
-      >
-        <X class="w-4 h-4" aria-hidden="true" />
-      </button>
+      <!-- Cabeçalho do Modal fora da imagem: título à esquerda e botão fechar à direita -->
+      <div class="flex items-center justify-between gap-4 mb-3">
+        <h3
+          id="case-modal-title"
+          class="font-roc text-xl sm:text-2xl lg:text-3xl text-white leading-tight tracking-tight font-normal"
+        >
+        </h3>
+
+        <button
+          type="button"
+          id="case-modal-close"
+          aria-label={isEn ? "Close modal" : "Fechar modal"}
+          class="shrink-0 w-9 h-9 rounded-full bg-white/[0.06] border border-white/15 text-white/80 hover:text-white hover:border-primary/60 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center cursor-pointer"
+        >
+          <X class="w-4 h-4" aria-hidden="true" />
+        </button>
+      </div>
 
       <!-- Banner 16:9 -->
-      <div class="relative w-full aspect-video bg-black overflow-hidden">
+      <div class="relative w-full aspect-video overflow-hidden rounded-2xl border border-white/[0.12] bg-[#060b14] shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_50px_rgba(37,164,255,0.15)]">
         <!-- Imagem do Banner -->
         <img
           id="case-modal-img"
@@ -224,29 +232,6 @@ const cases = getCases(lang);
           <div class="absolute -top-16 left-1/4 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.35)_0%,transparent_70%)] blur-[70px]"></div>
           <div class="absolute -bottom-10 right-1/4 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(37,164,255,0.2)_0%,transparent_70%)] blur-[60px]"></div>
         </div>
-
-        <!-- Fade sutil na base do banner -->
-        <div
-          class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060b14] to-transparent pointer-events-none"
-          aria-hidden="true"
-        ></div>
-      </div>
-
-      <!-- Título do Modal: Nome do Cliente -->
-      <div class="relative px-6 py-5 sm:px-8 sm:py-6">
-        <div
-          class="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-primary/60 via-primary/20 to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          class="absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-t from-primary/60 via-primary/20 to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
-        <h3
-          id="case-modal-title"
-          class="font-roc text-xl sm:text-2xl lg:text-3xl text-white leading-tight tracking-tight font-normal"
-        >
-        </h3>
       </div>
     </div>
   </div>

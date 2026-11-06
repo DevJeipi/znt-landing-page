@@ -10,7 +10,7 @@ import { MapPin, ArrowUpRight, Users } from "lucide-astro";
  * Sem foto, o bloco usa o fundo decorativo em glow azul.
  */
 import type { ImageMetadata } from "astro";
-import { Image } from "astro:assets";
+import teamPhoto from "../assets/team/time.jpg";
 import officePhoto1 from "../assets/team/escritorio.webp";
 import officePhoto2 from "../assets/team/escritorio-2.webp";
 import { SITE, mapsUrl, type Locale } from "../data/site";
@@ -22,7 +22,7 @@ interface Props {
 const { lang = "pt" } = Astro.props;
 const isEn = lang === "en";
 
-const teamImage: ImageMetadata | null = null;
+const teamImage: ImageMetadata | null = teamPhoto;
 
 const officePhotos: { image: ImageMetadata; alt: string; caption: string }[] = isEn
   ? [
@@ -98,12 +98,14 @@ const address = {
       >
         {
           teamImage ? (
-            <Image
-              src={teamImage}
+            <img
+              src={teamImage.src}
+              width={teamImage.width}
+              height={teamImage.height}
               alt={isEn ? "ZNT Marketing Team" : "Time da ZNT Marketing"}
+              loading="lazy"
+              decoding="async"
               class="absolute inset-0 w-full h-full object-cover"
-              widths={[640, 960, 1440]}
-              sizes="(max-width: 1024px) 100vw, 60vw"
             />
           ) : (
             <div
